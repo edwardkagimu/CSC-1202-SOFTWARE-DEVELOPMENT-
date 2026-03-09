@@ -1,2 +1,2 @@
-# GROUP-2-SYSTEM-ANALYSIS-AND-DESIGN-PRESENTATION
-This is a discussion for group 2
+# CSC 1202: SOFTWARE DEVELOPMENT 
+Project for group 2
