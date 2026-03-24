@@ -63,7 +63,7 @@ class InternshipPlacement(models.Model):
     academic_supervisor=models.ForeignKey(AcademicSupervisor,on_delete=models.CASCADE)
     workplace_supervisor=models.ForeignKey(WorkplaceSupervisor,on_delete=models.CASCADE)
     company_name=models.CharField(max_length=100)
-    comapany_address=models.CharField(max_length=100)
+    company_address=models.CharField(max_length=100)
     start_date=models.DateField()
     end_date=models.DateField()
 
@@ -78,8 +78,9 @@ class WeeklyLog(models.Model):
     skills_learned=models.CharField()
     date_submitted=models.DateField()
     status=models.CharField(choices=STATUS_CHOICES,default='draft')
+    
     def __str__(self):
-        return 
+      return f"Week {self.week_number} - {self.placement.student.user.username}"
     
 
 class EvaluationCriteria(models.Model):

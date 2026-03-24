@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ILES',
+    'rest_framework',
     
 ]
 
@@ -117,3 +118,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+#to clear django conflicts with absract user and user models
+#app name =ILES , model = CustomUser
+AUTH_USER_MODEL="ILES.CustomUser"
