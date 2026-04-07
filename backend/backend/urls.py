@@ -21,4 +21,5 @@ from ILES import urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('ILES.urls')),
+    path('accounts/',include('accounts.urls'))
 ]

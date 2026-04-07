@@ -9,11 +9,11 @@ from .serializers import WeeklyLogSerializer
 
 def test (request):
     return (HttpResponse("Working..."))
-
+ 
 class WeeklogListCreateView(APIView):
     def get(self,request):
         logs=WeeklyLog.objects.filter(student=request.user)
-        #serializer=WeeklyLogSerializer(logs,many =True)
+        serializer=WeeklyLogSerializer(logs,many =True)
         return Response (serializer.data)
     
     def post(self,request):
