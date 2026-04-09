@@ -16,7 +16,7 @@ const LogSubmission = ({ placementId }) => {
             return;
         }
 
-        setLoading(true); // Start loading
+        setLoading(true); 
 
         try {
             const response = await axios.post('/api/logs/', {
