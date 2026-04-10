@@ -12,9 +12,12 @@ def test (request):
  
 class WeeklogListCreateView(APIView):
     def get(self,request):
-        logs=WeeklyLog.objects.filter(student=request.user)
-        serializer=WeeklyLogSerializer(logs,many =True)
-        return Response (serializer.data)
+        try:
+         logs=WeeklyLog.objects.filter(placement__student=request.user)
+         serializer=WeeklyLogSerializer(logs,many =True)
+         return Response (serializer.data)
+        except Exception as e:
+            return Response ({'error':str(e)})
     
     def post(self,request):
         serializer=WeeklyLogSerializer(data=request.data)
@@ -23,12 +26,24 @@ class WeeklogListCreateView(APIView):
             return Response (serializer.data)
         return Response(serializer.errors)
 
-class SupervisorLogsView(APIView):
-    def get (self,request,supervisor_id):
-        logs=WeeklyLog.objects.filter(student__supervisor_id=supervisor_id)
-        serializer=WeeklyLogSerializer(logs,many=True)
-        return Response(serializer.data)
-    
+class Workplace_SupervisorLogsView(APIView):
+    def get (self,request):
+        try:
+          logs=WeeklyLog.objects.filter(placement__workplace_supervisor=request.data)
+          serializer=WeeklyLogSerializer(logs,many=True)
+          return Response({'serializer.data'})
+        except Exception as e:
+            return Response ({'error':str(e)})  
+
+class Academic_SupervisorLogsView(APIView):
+    def get (self,request):
+        try:
+          logs=WeeklyLog.objects.filter(placement__academic_supervisor=request.data)
+          serializer=WeeklyLogSerializer(logs,many=True)
+          return Response({'serializer.data'})
+        except Exception as e:
+            return Response ({'error':str(e)})  
+
 class ApproveLogView(APIView):
     def put(self,request,log_id):
         try:
