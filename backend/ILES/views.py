@@ -45,13 +45,19 @@ class Academic_SupervisorLogsView(APIView):
             return Response ({'error':str(e)})  
 
 class ApproveLogView(APIView):
-    def put(self,request,log_id):
+    def put(self,request,pk):
         try:
-            log=WeeklyLog.objects.get(id=log_id)
+            log=WeeklyLog.objects.get(id=pk)
+           
         except WeeklyLog.DoesNotExist:
             return Response ({"error" : "Log not Found"})
-        
+            
+        #update field
         log.approved=True
-        log.save()
-        return Response({"message" : " Log approved"})
+        log.save(update_fields=["status","approved"])
+        serializer=WeeklyLogSerializer(log,many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=200)
+        return Response(serializer.errors)
 
