@@ -3,6 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from accounts.models import CustomUser
 from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+from ILES.models import Student,AcademicSupervisor,Adminstrator,WorkplaceSupervisor
 # Create your views here.
 
 @api_view(['POST'])
@@ -31,7 +33,17 @@ def signup(request):
         return Response({'error':'All feilds required'},status=400)
     
     #create user with hashed password
-    user=CustomUser.objects.create_user(username=username,email=email,password=password,role=role)
+    user=CustomUser.objects.create_user(username=username,email=email,password=password)
+    user.role=role
+    user.save()
+    if role == 'student':
+        Student.objects.create(user=user)
+    elif role == 'academic_supervisor':
+        AcademicSupervisor.objects.create(user=user)
+    elif role =="workplace_supervisor":
+        WorkplaceSupervisor.objects.create(user=user)
+    elif role == 'administrator':
+        Adminstrator.objects.create(user=user)
 
     return Response({'message':'signup successfully'},status=201)
 
