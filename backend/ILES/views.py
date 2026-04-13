@@ -4,14 +4,21 @@ from rest_framework.views import APIView
 from .models import WeeklyLog
 from rest_framework.response import Response
 from .serializers import WeeklyLogSerializer
-
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 def test (request):
     return (HttpResponse("Working..."))
  
 class WeeklogListCreateView(APIView):
+    permission_classes=[IsAuthenticated]
+ 
     def get(self,request):
+        print("USER:",request.user)
+        if not request.user.is_authenticated:
+ 
+            return Response(str(request.user),status=401)
+        
         try:
          logs=WeeklyLog.objects.filter(placement__student=request.user)
          serializer=WeeklyLogSerializer(logs,many =True)
@@ -27,11 +34,12 @@ class WeeklogListCreateView(APIView):
         return Response(serializer.errors)
 
 class Workplace_SupervisorLogsView(APIView):
+    #permission_classes=[IsAuthenticated]
     def get (self,request):
         try:
-          logs=WeeklyLog.objects.filter(placement__workplace_supervisor=request.data)
+          logs=WeeklyLog.objects.filter(placement__workplace_supervisor=request.user)
           serializer=WeeklyLogSerializer(logs,many=True)
-          return Response({'serializer.data'})
+          return Response(serializer.data)
         except Exception as e:
             return Response ({'error':str(e)})  
 
@@ -40,18 +48,26 @@ class Academic_SupervisorLogsView(APIView):
         try:
           logs=WeeklyLog.objects.filter(placement__academic_supervisor=request.data)
           serializer=WeeklyLogSerializer(logs,many=True)
-          return Response({'serializer.data'})
+          return Response(serializer.data)
         except Exception as e:
             return Response ({'error':str(e)})  
 
 class ApproveLogView(APIView):
-    def put(self,request,log_id):
+    #permission_classes=[IsAuthenticated]
+    def put(self,request,pk):
         try:
-            log=WeeklyLog.objects.get(id=log_id)
+            log=WeeklyLog.objects.get(id=pk)
+           
         except WeeklyLog.DoesNotExist:
             return Response ({"error" : "Log not Found"})
-        
+            
+        #update field
         log.approved=True
-        log.save()
-        return Response({"message" : " Log approved"})
+        log.status="approved"
+        log.save(update_fields=["status"])
+        serializer=WeeklyLogSerializer(log,many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=200)
+        return Response(serializer.errors)
 

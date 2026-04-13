@@ -7,5 +7,5 @@ urlpatterns = [
     path('weekly-log/',WeeklogListCreateView.as_view()),
     path('workplace_supervisor/logs/',Workplace_SupervisorLogsView.as_view()),
     path('academic_supervisor/logs',Academic_SupervisorLogsView.as_view()),
-    path('supervisor/approve/',ApproveLogView.as_view())
+    path('supervisor/<int:pk>/approve/',ApproveLogView.as_view())
     ]
