@@ -16,9 +16,8 @@ STATUS_CHOICES=[
 class Student(models.Model):
     user=models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     university=models.CharField(max_length=100)
-    internship_start_date=models.DateField()
-    internship_end_date=models.DateField()
-
+    internship_start_date = models.DateField(null=True, blank=True)
+    internship_end_date = models.DateField(null=True, blank=True)
     def __str__(self):
         return f"Student : {self.user.username}"
     
