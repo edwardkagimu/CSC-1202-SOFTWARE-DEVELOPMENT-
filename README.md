@@ -44,7 +44,7 @@ Response:
 }
 # 2. Dashboard
 
-GET /api/dashboard/
+GET /dashboard/
 
 Headers:
 Authorization: Bearer <access_token> 
@@ -63,7 +63,7 @@ Response (Supervisor):
 # 3. Weekly Logs
 
 ## Create Weekly Log
-POST /api/weekly-logs/
+POST weekly-logs/
 
 Headers:
 Authorization: Bearer <token>
