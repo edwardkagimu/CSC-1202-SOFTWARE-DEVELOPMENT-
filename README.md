@@ -6,4 +6,75 @@ Group members
 3. Ssewajje Elvin Alex       25/U/03589/EVE         2500703589
 4. Mary Micheal Eliaba   25/X/03444                  2500703444
 
+# Internship Logging & Evaluation System API
+
+Base URL:
+http://127.0.0.1:8000/
+
+# 1. Authentication
+
+## User Signup
+POST /accounts/signup/
+
+Request:
+{
+  "username": "alex",
+  "password": "1234",
+  "role": "student"
+}
+
+Response:
+{
+  "message": "User created successfully"
+}
+
+## Login
+POST /accounts/login/
+
+Request:
+{
+  "username": "alex",
+  "password": "1234"
+}
+
+Response:
+{
+  "access": "jwt_token",
+  "refresh": "jwt_refresh_token"
+}
+# 2. Dashboard
+
+GET /api/dashboard/
+
+Headers:
+Authorization: Bearer <access_token> 
+
+Response (Student):
+{
+  "total_logs": 5,
+  "approved_logs": 3
+}
+
+Response (Supervisor):
+{
+  "pending_logs": 10
+}
+
+# 3. Weekly Logs
+
+## Create Weekly Log
+POST /api/weekly-logs/
+
+Headers:
+Authorization: Bearer <token>
+
+Request:
+{
+  "title": "Week 1 report",
+  "content": "Worked on backend APIs"
+}
+
+## Get Logs
+GET weekly-logs/
+
 
