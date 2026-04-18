@@ -17,9 +17,9 @@ def create_profile(sender, instance, created, **kwargs):
             )
 
         elif instance.role == "workplace_supervisor":
-            WorkplaceSupervisor.objects.create(user=instance)
+            WorkplaceSupervisor.objects.get_or_create(user=instance)
 
         elif instance.role == "academic_supervisor":
-            AcademicSupervisor.objects.create(user=instance)
+            AcademicSupervisor.objects.get_or_create(user=instance)
         elif instance.role == "admin":
-            Adminstrator.objects.create(user=instance)
+            Adminstrator.objects.get_or_create(user=instance)
