@@ -18,9 +18,10 @@ POST /accounts/signup/
 
 Request:
 {
-  "username": "alex",
-  "password": "1234",
-  "role": "student"
+  "username"
+  "password"
+  "email"
+  "role"
 }
 
 Response:
@@ -64,6 +65,13 @@ Response (Supervisor):
 
 ## Create Weekly Log
 POST weekly-logs/
+placement
+week_number
+activities
+challenges
+skills_learned
+date_submitted
+status
 
 Headers:
 Authorization: Bearer <token>
@@ -77,4 +85,14 @@ Request:
 ## Get Logs
 GET weekly-logs/
 
+## Assgn Placements by Admin
+POST api/admin/assign_placement/
+  #required fields
+    "student_id"
+    "workplace_supervisor_id"
+    "academic_supervisor_id"
+    "company_name"
+    "company_address"
+    "start_date"
+    "end_date"
 

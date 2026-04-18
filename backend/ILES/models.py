@@ -45,7 +45,7 @@ class Adminstrator(models.Model):
         return f"Admin : {self.user.username}"
     
 class InternshipPlacement(models.Model):
-    student=models.ForeignKey(Student,on_delete=models.CASCADE)
+    student=models.OneToOneField(Student,on_delete=models.CASCADE)
     academic_supervisor=models.ForeignKey(AcademicSupervisor,on_delete=models.CASCADE)
     workplace_supervisor=models.ForeignKey(WorkplaceSupervisor,on_delete=models.CASCADE)
     company_name=models.CharField(max_length=100)
@@ -59,10 +59,10 @@ class InternshipPlacement(models.Model):
 class WeeklyLog(models.Model):
     placement=models.ForeignKey(InternshipPlacement,on_delete=models.CASCADE)
     week_number=models.IntegerField()
-    activities=models.CharField()
-    challenges=models.CharField()
-    skills_learned=models.CharField()
-    date_submitted=models.DateField()
+    activities=models.CharField(max_length=100)
+    challenges=models.CharField(max_length=100)
+    skills_learned=models.CharField(max_length=100)
+    date_submitted=models.DateField(max_length=100)
     status=models.CharField(choices=STATUS_CHOICES,default='draft')
     
     def __str__(self):
