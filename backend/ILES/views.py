@@ -39,18 +39,22 @@ class DashboardView(APIView):
          elif user.role == 'workplace_supervisor':
              workplace_supervisor=user.workplacesupervisor
              data={
-                 "pending_logs":WeeklyLog.objects.filter(placement__workplace_supervisor=workplace_supervisor).count(),
+                 "pending_logs":WeeklyLog.objects.filter(placement__workplace_supervisor=workplace_supervisor,status="submitted").count(),
+                 "approved_logs":WeeklyLog.objects.filter(placement__workplace_supervisor=workplace_supervisor,status="approved").count(),
              }
          elif user.role == 'academic_supervisor':
               academic_supervisor=user.academicsupervisor
               data={
-                 "pending_logs":WeeklyLog.objects.filter(placement__academic_supervisor=academic_supervisor).count(),
+                 "pending_logs":WeeklyLog.objects.filter(placement__academic_supervisor=academic_supervisor,status="submitted").count(),
+                 "approved_logs":WeeklyLog.objects.filter(placement__academic_supervisor=academic_supervisor,status="approved").count(),
              }
          elif role == 'admin' or user.is_staff:
              
              data={
                  "students":Student.objects.count(),
-                 "logs":WeeklyLog.objects.count(),
+                 "total_logs":WeeklyLog.objects.count(),
+                 "approved_logs":WeeklyLog.objects.filter(status="approved").count(),
+                 "pending_logs":WeeklyLog.objects.filter(status="submitted").count(),
                  "evaluations":Evaluation.objects.count()
              } 
          return Response(data)
@@ -122,7 +126,7 @@ class ApproveLogView(APIView):
         #update field
         log.approved=True
         log.status="approved"
-        log.save(update_fields=["approved","status"])
+        log.save(update_fields=["status"])
         serializer=WeeklyLogSerializer(log)
         return Response(serializer.data,status=200)
 
