@@ -59,7 +59,13 @@ class DashboardView(APIView):
                  "pending_logs":WeeklyLog.objects.filter(status="submitted").count(),
                  "evaluations":Evaluation.objects.count()
              } 
-         return Response(data)
+         return Response({
+             "user":{
+                 "username":user.username,
+                 "role":role
+             },
+             "data":data
+         })
         except Exception as e:
             return Response({"error":str(e)})
 class WeeklogListCreateView(APIView):
