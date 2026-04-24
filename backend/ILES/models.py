@@ -63,7 +63,7 @@ class WeeklyLog(models.Model):
     challenges=models.CharField(max_length=100)
     skills_learned=models.CharField(max_length=100)
     date_submitted=models.DateField(max_length=100)
-    status=models.CharField(choices=STATUS_CHOICES,default='draft')
+    status=models.CharField(max_length=20,choices=STATUS_CHOICES,default='draft')
     
     def __str__(self):
       return f"Week {self.week_number} - {self.placement.student.user.username}"

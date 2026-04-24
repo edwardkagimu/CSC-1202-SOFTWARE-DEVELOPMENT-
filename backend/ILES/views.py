@@ -33,6 +33,8 @@ class DashboardView(APIView):
           student=user.student
           data={
              "logs": WeeklyLog.objects.filter(placement__student=student).count(),
+             "draft":WeeklyLog.objects.filter(placement__student=student,status="draft").count(),
+             "reviewed":WeeklyLog.objects.filter(placement__student=student,status="reviewed").count(),
              "approved_logs":WeeklyLog.objects.filter(placement__student=student,status="approved").count(),
              "evaluations":Evaluation.objects.filter(placement__student=student).count(),
             }
@@ -40,12 +42,12 @@ class DashboardView(APIView):
              workplace_supervisor=user.workplacesupervisor
              data={
                  "pending_logs":WeeklyLog.objects.filter(placement__workplace_supervisor=workplace_supervisor,status="submitted").count(),
-                 "approved_logs":WeeklyLog.objects.filter(placement__workplace_supervisor=workplace_supervisor,status="approved").count(),
+                 "reviewed_logs":WeeklyLog.objects.filter(placement__workplace_supervisor=workplace_supervisor,status="reviewed").count(),
              }
          elif user.role == 'academic_supervisor':
               academic_supervisor=user.academicsupervisor
               data={
-                 "pending_logs":WeeklyLog.objects.filter(placement__academic_supervisor=academic_supervisor,status="submitted").count(),
+                 "pending_logs":WeeklyLog.objects.filter(placement__academic_supervisor=academic_supervisor,status="reviewed").count(),
                  "approved_logs":WeeklyLog.objects.filter(placement__academic_supervisor=academic_supervisor,status="approved").count(),
              }
          elif role == 'admin' or user.is_staff:
@@ -84,7 +86,7 @@ class WeeklogListCreateView(APIView):
         serializer=WeeklyLogSerializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.save(placement=placement)
+            serializer.save(placement=placement,status="draft")
             return Response (serializer.data)
         return Response(serializer.errors)
 
@@ -94,7 +96,7 @@ class Workplace_SupervisorLogsView(APIView):
         if request.user.role != "workplace_supervisor":
             return Response ({"error":"Only Workplace supervisors can access"},status=403)
         try:
-          logs=WeeklyLog.objects.filter(placement__workplace_supervisor=request.user.workplacesupervisor)
+          logs=WeeklyLog.objects.filter(placement__workplace_supervisor=request.user.workplacesupervisor,status="submitted")
           serializer=WeeklyLogSerializer(logs,many=True)
           return Response(serializer.data)
         except Exception as e:
@@ -106,7 +108,7 @@ class Academic_SupervisorLogsView(APIView):
         if request.user.role != "academic_supervisor":
             return Response ({"error":"Only Academic supervisors can access"},status=403)
         try:
-          logs=WeeklyLog.objects.filter(placement__academic_supervisor=request.user.academicsupervisor)
+          logs=WeeklyLog.objects.filter(placement__academic_supervisor=request.user.academicsupervisor,status="reviewed")
           serializer=WeeklyLogSerializer(logs,many=True)
           return Response(serializer.data)
         except Exception as e:
@@ -114,7 +116,7 @@ class Academic_SupervisorLogsView(APIView):
 
 class ApproveLogView(APIView):
     permission_classes=[IsAuthenticated]
-    def put(self,request,pk):
+    def patch(self,request,pk):
         if request.user.role not in ["academic_supervisor", "workplace_supervisor", "admin"]:
              return Response({"error": "Not allowed"}, status=403)
         try:
@@ -123,12 +125,24 @@ class ApproveLogView(APIView):
         except WeeklyLog.DoesNotExist:
             return Response ({"error" : "Log not Found"})
             
+        user=request.user
+        if user.role == "workplace_supervisor":
+            if log.placement.workplace_supervisor != user.workplacesupervisor:
+                return Response({"error": "Not your log"}, status=403)
+
+            log.status = "reviewed"
+        elif user.role == "academic_supervisor":
+            if log.placement.academic_supervisor != user.academicsupervisor:
+                return Response({"error": "Not your log"}, status=403)
+
+            log.status = "approved"
+        else:
+            return Response({"error": "Not allowed"}, status=403)
+        
         #update field
-        log.approved=True
-        log.status="approved"
-        log.save(update_fields=["status"])
+        log.save()
         serializer=WeeklyLogSerializer(log)
-        return Response(serializer.data,status=200)
+        return Response({"message": f"Log {log.status}"})
 
 class AssignPlacementView(APIView):
     permission_classes = [IsAuthenticated,IsAdmin]
@@ -156,3 +170,22 @@ class AssignPlacementView(APIView):
                            "id": placement.id})
         except Exception as e:
           return Response({"error":str(e)},status=400)
+        
+
+class SubmitLogView(APIView):
+    permission_classes = [IsAuthenticated,IsStudent]
+
+    def patch(self, request, pk):
+        try:
+            log = WeeklyLog.objects.get(id=pk)
+        except WeeklyLog.DoesNotExist:
+            return Response({"error": "Log not found"}, status=404)
+
+        if log.placement.student != request.user.student:
+            return Response({"error": "Not your log"}, status=403)
+        if log.status != "draft":
+            return Response({"error": "Only draft logs can be submitted"}, status=400)
+        log.status = "submitted"
+        log.save()
+
+        return Response({"message": "Log submitted"})
