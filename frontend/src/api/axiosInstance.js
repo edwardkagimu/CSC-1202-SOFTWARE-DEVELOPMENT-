@@ -30,7 +30,7 @@ axiosInstance.interceptors.request.use(
  
 export const ENDPOINTS = {
     signup: 'accounts/signup/',
-    login: 'accounts/token/login/',
+    login: 'accounts/login/',
     dashboard: 'dashboard/',
     weeklyLog: 'weekly-log/',
 };
