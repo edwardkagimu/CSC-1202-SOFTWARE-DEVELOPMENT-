@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from rest_framework.views import APIView
 from .models import WeeklyLog,Evaluation,Student,WorkplaceSupervisor,AcademicSupervisor,InternshipPlacement
 from rest_framework.response import Response
-from .serializers import WeeklyLogSerializer
+from .serializers import WeeklyLogSerializer,StudentSerializer,WorkplaceSupervisorSerializer,AcademicSupervisorSerializer
 from rest_framework.permissions import IsAuthenticated, BasePermission
 # Create your views here.
 
@@ -195,3 +195,17 @@ class SubmitLogView(APIView):
         log.save()
 
         return Response({"message": "Log submitted"})
+    
+class UsersListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        students = Student.objects.all()
+        workplaces = WorkplaceSupervisor.objects.all()
+        academics = AcademicSupervisor.objects.all()
+
+        return Response({
+            "students": StudentSerializer(students, many=True).data,
+            "workplace_supervisors": WorkplaceSupervisorSerializer(workplaces, many=True).data,
+            "academic_supervisors": AcademicSupervisorSerializer(academics, many=True).data,
+        })

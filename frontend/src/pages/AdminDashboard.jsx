@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 export default function AdminDashboard({ stats, user }) {
+  const navigate = useNavigate();
   return (
     <div style={{ padding: "20px" }}>
       <h1>Admin Dashboard</h1>
@@ -12,7 +15,7 @@ export default function AdminDashboard({ stats, user }) {
         <p>Pending Logs: {stats.pending_logs}</p>
       </div>
 
-      <button>Assign Students</button>
+      <button onClick={() => navigate("/assign-placement")} >Assign Students</button>
       <button>Manage Users</button>
     </div>
   );

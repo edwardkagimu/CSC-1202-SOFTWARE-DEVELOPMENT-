@@ -33,6 +33,8 @@ export const ENDPOINTS = {
     login: 'accounts/login/',
     dashboard: 'dashboard/',
     weeklyLog: 'weekly-log/',
+    users:'api/users/',
+    assignPlacement: 'api/admin/assign_placement/'
 };
 
 export default axiosInstance;
