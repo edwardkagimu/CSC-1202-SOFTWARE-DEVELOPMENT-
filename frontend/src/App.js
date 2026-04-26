@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import LogForm from './pages/Logs/LogForm';
 import ProtectedRoute from './components/ProtectedRoute';
+import AssignPlacement from './pages/pages/AssignPlacement';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/assign-placement" element={<AssignPlacement/>}/>
 
           <Route
             path="/submit-log"

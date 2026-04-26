@@ -8,16 +8,21 @@ class CustomUserSerializer(serializers.ModelSerializer):
         fields = ['id','username','email','role']
 
 class StudentSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source="user.username")
+
     class Meta:
         model=Student
-        fields='__all__'
+        fields=['id','username']
 
 class WorkplaceSupervisorSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source="user.username")
+
     class Meta:
         model=WorkplaceSupervisor
-        fields='__all__'
+        fields=['id','username']
 
 class WeeklyLogSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model=WeeklyLog
         fields='__all__'
@@ -29,9 +34,11 @@ class AdminstratorSerializer(serializers.ModelSerializer):
         fields='__all__'
 
 class AcademicSupervisorSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source="user.username")
+
     class Meta:
         model=AcademicSupervisor
-        fields='__all__'
+        fields=['id','username']
 
 class InternshipPlacementSerializer(serializers.ModelSerializer):
     class Meta:
