@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 export default function StudentDashboard({ stats, user }) {
+  const navigate = useNavigate();
   return (
     <div style={{ padding: "20px" }}>
       <h1>Student Dashboard</h1>
@@ -14,7 +17,7 @@ export default function StudentDashboard({ stats, user }) {
 
       <hr />
 
-      <button>Create Log</button>
+      <button onClick={() => navigate("/create-log")}>Create Weekly Log</button>
       <button>View Logs</button>
       <button>Submit Log</button>
     </div>

@@ -5,6 +5,7 @@ from .models import WeeklyLog,Evaluation,Student,WorkplaceSupervisor,AcademicSup
 from rest_framework.response import Response
 from .serializers import WeeklyLogSerializer,StudentSerializer,WorkplaceSupervisorSerializer,AcademicSupervisorSerializer
 from rest_framework.permissions import IsAuthenticated, BasePermission
+from datetime import date
 # Create your views here.
 
 def test (request):
@@ -89,12 +90,17 @@ class WeeklogListCreateView(APIView):
           placement = InternshipPlacement.objects.get(student=request.user.student)
         except InternshipPlacement.DoesNotExist:
             return Response({"error":"No Placement assigned yet"},status=400)
+        
+        #to validate week_number
+        week = request.data.get("week_number")
+        if WeeklyLog.objects.filter(placement=placement, week_number=week).exists():
+               return Response({"error": "Log for this week already exists"}, status=400)
+        
         serializer=WeeklyLogSerializer(data=request.data)
-
         if serializer.is_valid():
-            serializer.save(placement=placement,status="draft")
+            serializer.save(placement=placement,status="draft",date_submitted=date.today())
             return Response (serializer.data)
-        return Response(serializer.errors)
+        return Response(serializer.errors,status=400)
 
 class Workplace_SupervisorLogsView(APIView):
     permission_classes=[IsAuthenticated]
