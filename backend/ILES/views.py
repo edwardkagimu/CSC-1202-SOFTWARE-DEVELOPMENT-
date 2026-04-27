@@ -189,18 +189,16 @@ class SubmitLogView(APIView):
 
     def patch(self, request, pk):
         try:
-            log = WeeklyLog.objects.get(id=pk)
+            log = WeeklyLog.objects.get(id=pk,placement__student=request.user.student)
         except WeeklyLog.DoesNotExist:
             return Response({"error": "Log not found"}, status=404)
 
-        if log.placement.student != request.user.student:
-            return Response({"error": "Not your log"}, status=403)
         if log.status != "draft":
             return Response({"error": "Only draft logs can be submitted"}, status=400)
         log.status = "submitted"
         log.save()
 
-        return Response({"message": "Log submitted"})
+        return Response({"message": "Log submitted successfully"})
     
 class UsersListView(APIView):
     permission_classes = [IsAuthenticated]
@@ -215,3 +213,20 @@ class UsersListView(APIView):
             "workplace_supervisors": WorkplaceSupervisorSerializer(workplaces, many=True).data,
             "academic_supervisors": AcademicSupervisorSerializer(academics, many=True).data,
         })
+    
+class DeleteLogView(APIView):
+    permission_classes = [IsAuthenticated, IsStudent]
+
+    def delete(self, request, pk):
+        try:
+            log = WeeklyLog.objects.get(id=pk,placement__student=request.user.student)
+        except WeeklyLog.DoesNotExist:
+            return Response({"error": "Log not found"}, status=404)
+
+        # only delete logs still in draft and submitted
+        if log.status in ['approved', 'reviewed'] :
+            return Response(
+                {"error": "Only draft and submitted logs can be deleted"},status=400 )
+
+        log.delete()
+        return Response({"message": "Log deleted successfully"})

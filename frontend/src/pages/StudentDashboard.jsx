@@ -18,7 +18,7 @@ export default function StudentDashboard({ stats, user }) {
       <hr />
 
       <button onClick={() => navigate("/create-log")}>Create Weekly Log</button>
-      <button>View Logs</button>
+      <button onClick={() => navigate("/my-logs")}>View Logs</button>
       <button>Submit Log</button>
     </div>
   );

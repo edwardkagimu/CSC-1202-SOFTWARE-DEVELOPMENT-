@@ -8,6 +8,7 @@ import LogForm from './pages/Logs/LogForm';
 import ProtectedRoute from './components/ProtectedRoute';
 import AssignPlacement from './pages/pages/AssignPlacement';
 import CreateLog from './pages/Logs/CreateLog';
+import MyLogs from './pages/Logs/MyLogs';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           />
           <Route path="/assign-placement" element={<AssignPlacement/>}/>
           <Route path="/create-log" element={<CreateLog/>}/>
+          <Route path="/my-logs" element={<MyLogs/>} />
           <Route
             path="/submit-log"
             element={

@@ -1,12 +1,13 @@
 from django.urls import path
 from . import views
-from .views import WeeklogListCreateView, ApproveLogView,SubmitLogView,UsersListView, Workplace_SupervisorLogsView, Academic_SupervisorLogsView,DashboardView,AssignPlacementView
+from .views import WeeklogListCreateView, ApproveLogView,SubmitLogView,DeleteLogView,UsersListView, Workplace_SupervisorLogsView, Academic_SupervisorLogsView,DashboardView,AssignPlacementView
 
 urlpatterns = [
     path('test/',views.test , name='test'),
     path('weekly-log/',WeeklogListCreateView.as_view()),
-    path('submit-log',SubmitLogView.as_view(),name='submit'),
+    path('submit-log/<int:pk>/',SubmitLogView.as_view(),name='submit'),
     path('workplace_supervisor/logs/',Workplace_SupervisorLogsView.as_view()),
+    path('delete-log/<int:pk>/', DeleteLogView.as_view()),
     path('academic_supervisor/logs/',Academic_SupervisorLogsView.as_view()),
     path('supervisor/<int:pk>/approve/',ApproveLogView.as_view()),
     path('dashboard/',DashboardView.as_view(),name='dashboard'),
