@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 export default function AcademicDashboard({ stats, user }) {
+  const navigate = useNavigate();
   return (
     <div style={{ padding: "20px" }}>
       <h1>Academic Dashboard</h1>
@@ -10,7 +12,7 @@ export default function AcademicDashboard({ stats, user }) {
         <p>Approved Logs: {stats.approved_logs}</p>
       </div>
 
-      <button>Approve Logs</button>
+      <button onClick={() => navigate("/academic/logs")}>Approve Logs</button>
     </div>
   );
 }

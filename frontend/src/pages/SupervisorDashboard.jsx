@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 export default function SupervisorDashboard({ stats, user }) {
+  const navigate = useNavigate();
   return (
     <div style={{ padding: "20px" }}>
       <h1>Supervisor Dashboard</h1>
@@ -10,8 +12,8 @@ export default function SupervisorDashboard({ stats, user }) {
         <p>Reviewed Logs: {stats.reviewed_logs}</p>
       </div>
 
+      <button onClick={() => navigate("/workplace/logs")}>Review Logs</button>
       <button>View Logs</button>
-      <button>Review Logs</button>
     </div>
   );
 }
