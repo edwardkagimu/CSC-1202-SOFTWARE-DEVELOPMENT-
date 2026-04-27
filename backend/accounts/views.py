@@ -1,10 +1,11 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework import status
 from accounts.models import CustomUser
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from ILES.models import Student,AcademicSupervisor,Adminstrator,WorkplaceSupervisor
+from rest_framework.permissions import AllowAny
 # Create your views here.
 
 @api_view(['POST'])
@@ -23,6 +24,7 @@ def login(request):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def signup(request):
     username=request.data.get('username')
     email=request.data.get('email')

@@ -141,11 +141,16 @@ class ApproveLogView(APIView):
         if user.role == "workplace_supervisor":
             if log.placement.workplace_supervisor != user.workplacesupervisor:
                 return Response({"error": "Not your log"}, status=403)
-
+            
+            if log.status != "submitted":
+                return Response({"error": "Only submitted logs can be reviewed"}, status=400)
             log.status = "reviewed"
         elif user.role == "academic_supervisor":
             if log.placement.academic_supervisor != user.academicsupervisor:
                 return Response({"error": "Not your log"}, status=403)
+            
+            if log.status != "reviewed":
+                return Response({"error": "Only submitted logs can be reviewed"}, status=400)
 
             log.status = "approved"
         else:
