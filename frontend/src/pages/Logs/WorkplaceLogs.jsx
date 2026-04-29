@@ -40,6 +40,7 @@ export default function WorkplaceLogs() {
           <div key={log.id} style={{ border: "1px solid #ccc", padding: "10px", margin: "10px" }}>
             <h4>Week {log.week_number}</h4>
 
+            <p><b>Reg No:</b> {log.student_reg_no}</p>
             <p><b>Activities:</b> {log.activities}</p>
             <p><b>Challenges:</b> {log.challenges}</p>
             <p><b>Skills:</b> {log.skills_learned}</p>

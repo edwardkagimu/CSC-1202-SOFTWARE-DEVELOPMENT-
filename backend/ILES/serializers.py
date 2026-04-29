@@ -9,10 +9,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 class StudentSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username")
-
+    student_reg_no = serializers.CharField(source='reg_no')
     class Meta:
         model=Student
-        fields=['id','username']
+        fields=['id','username','student_reg_no']
 
 class WorkplaceSupervisorSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username")
@@ -25,7 +25,7 @@ class WeeklyLogSerializer(serializers.ModelSerializer):
     
     class Meta:
         model=WeeklyLog
-        fields=['id','week_number','activities','challenges','skills_learned','date_submitted','status']
+        fields=['id','student_reg_no','week_number','activities','challenges','skills_learned','date_submitted','status']
         read_only_fields=['status','placement','date_submitted']
 
 class AdminstratorSerializer(serializers.ModelSerializer):

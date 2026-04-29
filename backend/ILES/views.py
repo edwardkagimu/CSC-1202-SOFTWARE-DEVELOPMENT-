@@ -29,7 +29,7 @@ class DashboardView(APIView):
         try:
          user = request.user
          role = (user.role or "").strip().lower()
-
+         
          if user.role == 'student':
           student=user.student
           data={
@@ -63,7 +63,8 @@ class DashboardView(APIView):
          return Response({
              "user":{
                  "username":user.username,
-                 "role":role
+                 "role":role,
+                 "reg_no": user.student.reg_no if role == "student" else None
              },
              "data":data
          })

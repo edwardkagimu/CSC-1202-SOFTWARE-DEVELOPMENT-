@@ -6,7 +6,7 @@ export default function StudentDashboard({ stats, user }) {
     <div style={{ padding: "20px" }}>
       <h1>Student Dashboard</h1>
 
-      <p>Welcome, {user.username}</p>
+      <p>Welcome, {user.username}</p>       <p>Registration No: {user.reg_no}</p>
 
       <div style={{ display: "flex", gap: "10px" }}>
         <div>Total Logs: {stats.logs}</div>
