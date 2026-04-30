@@ -61,7 +61,7 @@ export default function AssignPlacement() {
 
       alert("Placement assigned successfully");
 
-      // reset form (optional)
+      // reset form
       setStudent("");
       setWorkplace("");
       setAcademic("");
@@ -87,7 +87,7 @@ export default function AssignPlacement() {
         <option value="">Select Student</option>
         {students.map((s) => (
           <option key={s.id} value={s.id}>
-            {s.reg_no} - {s.username}
+            {s.student_reg_no} - {s.username}
           </option>
         ))}
       </select>

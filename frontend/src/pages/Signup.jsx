@@ -7,6 +7,7 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("student");
+  const [reg_no,setReg_no] = useState("");
 
   const navigate = useNavigate();
 
@@ -17,6 +18,7 @@ export default function Signup() {
         email,
         password,
         role,
+        reg_no : role === "student" ? reg_no : null,
       });
 
       if (res.data) {
@@ -35,24 +37,35 @@ export default function Signup() {
 
       <input
         placeholder="username"
+        value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
       <input
         placeholder="email"
+        value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
 
       <input
         type="password"
+        value={password}
         placeholder="password"
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <select onChange={(e) => setRole(e.target.value)}>
+      <select value={role} onChange={(e) => setRole(e.target.value)}>
         <option value="student">Student</option>
         <option value="workplace_supervisor">Workplace Supervisor</option>
         <option value="academic_supervisor">Academic Supervisor</option>
       </select>
+
+      {role === "student" && (
+        <input
+          placeholder="Registration Number"
+          value={reg_no}
+          onChange={(e) => setReg_no(e.target.value)}
+        />
+      )}
 
       <button onClick={handleSignup}>Sign Up</button>
     </div>
