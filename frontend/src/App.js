@@ -11,6 +11,7 @@ import CreateLog from './pages/Logs/CreateLog';
 import MyLogs from './pages/Logs/MyLogs';
 import WorkplaceLogs from './pages/Logs/WorkplaceLogs';
 import AcademicLogs from './pages/Logs/cademicLogs';
+import CreateEvaluation from './pages/Evaluations/Evaluation';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/my-logs" element={<MyLogs/>} />
           <Route path="/workplace/logs" element={<WorkplaceLogs />} />
           <Route path="/academic/logs" element={<AcademicLogs />} />
+          <Route path="/evaluate/:placementId" element={<CreateEvaluation />} />
           <Route
             path="/submit-log"
             element={

@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.views import APIView
-from .models import WeeklyLog,Evaluation,Student,WorkplaceSupervisor,AcademicSupervisor,InternshipPlacement
+from .models import WeeklyLog,Evaluation,Student,WorkplaceSupervisor,AcademicSupervisor,InternshipPlacement,EvaluationCriteria
 from rest_framework.response import Response
-from .serializers import WeeklyLogSerializer,StudentSerializer,WorkplaceSupervisorSerializer,AcademicSupervisorSerializer
+from .serializers import WeeklyLogSerializer,EvaluationSerializer,EvaluationCriteriaSerializer,StudentSerializer,WorkplaceSupervisorSerializer,AcademicSupervisorSerializer
 from rest_framework.permissions import IsAuthenticated, BasePermission
 from datetime import date
 # Create your views here.
@@ -236,3 +236,28 @@ class DeleteLogView(APIView):
 
         log.delete()
         return Response({"message": "Log deleted successfully"})
+    
+class EvaluationView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+
+        if user.role not in ["workplace_supervisor", "academic_supervisor"]:
+            return Response({"error": "Not allowed"}, status=403)
+
+        serializer = EvaluationSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save(evaluator=user)
+            return Response(serializer.data)
+        
+        return Response(serializer.errors, status=400)
+    
+class EvaluationCriteriaListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        criteria = EvaluationCriteria.objects.all()
+        serializer = EvaluationCriteriaSerializer(criteria, many=True)
+        return Response(serializer.data)
