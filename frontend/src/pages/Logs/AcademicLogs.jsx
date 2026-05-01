@@ -46,9 +46,6 @@ export default function AcademicLogs() {
             <p><b>Challenges:</b> {log.challenges}</p>
             <p><b>Skills:</b> {log.skills_learned}</p>
 
-            <button onClick={() => navigate(`/academic-evaluation/${log.placement_id}`)}>
-             Evaluate 
-            </button>            
             <button onClick={() => confirmApproval(log.id)}>
               Confirm Approval
             </button>

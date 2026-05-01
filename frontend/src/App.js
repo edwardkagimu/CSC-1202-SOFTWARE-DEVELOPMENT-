@@ -10,11 +10,12 @@ import AssignPlacement from './pages/pages/AssignPlacement';
 import CreateLog from './pages/Logs/CreateLog';
 import MyLogs from './pages/Logs/MyLogs';
 import WorkplaceLogs from './pages/Logs/WorkplaceLogs';
-import AcademicLogs from './pages/Logs/cademicLogs';
+import AcademicLogs from './pages/Logs/AcademicLogs';
 import CreateEvaluation from './pages/Evaluations/AcademicEvaluation';
 import AcademicEvaluation from './pages/Evaluations/AcademicEvaluation';
 import WorkplaceEvaluation from './pages/Evaluations/WorkplaceEvaluation';
-
+import AssignedStudents from './pages/AssignedStudents/WorkplaceStudents'
+import AssignedStudent from './pages/AssignedStudents/AcademicStudents';
 function App() {
   return (
     <Router>
@@ -38,6 +39,8 @@ function App() {
           <Route path="/evaluate/:placementId" element={<CreateEvaluation />} />
           <Route path="/academic-evaluation/:placementId"  element={<AcademicEvaluation />}/>
           <Route path="/workplace-evaluation/:placementId" element={<WorkplaceEvaluation />}/>
+          <Route path="/workplace-students" element={<AssignedStudents/>}/>
+          <Route path="/academic-students" element={<AssignedStudents/>}/>
           <Route
             path="/submit-log"
             element={

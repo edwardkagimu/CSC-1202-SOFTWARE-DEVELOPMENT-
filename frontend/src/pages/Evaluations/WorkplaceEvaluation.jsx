@@ -42,6 +42,7 @@ export default function WorkplaceEvaluation() {
       );
 
       alert("Error submitting evaluation");
+      alert(err);
     }
   };
 

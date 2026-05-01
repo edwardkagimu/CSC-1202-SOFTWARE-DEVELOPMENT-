@@ -119,6 +119,7 @@ class WeeklogListCreateView(APIView):
             return Response({"error":"No Placement assigned yet"},status=400)
         
         # DEADLINE LOGIC
+        week =int(request.data.get("week_number"))
         # assume each week starts from placement.start_date
         week_start = placement.start_date + timedelta(days=(week - 1) * 7)
         deadline = week_start + timedelta(days=7)  # end of week
@@ -128,7 +129,6 @@ class WeeklogListCreateView(APIView):
 
         
         #to validate week_number prevent duplicates
-        week =int(request.data.get("week_number"))
         if WeeklyLog.objects.filter(placement=placement, week_number=week).exists():
                return Response({"error": "Log for this week already exists"}, status=400)
         
@@ -279,9 +279,10 @@ class WorkplaceEvaluationView(APIView):
 
         if request.user.role != "workplace_supervisor":
             return Response({"error": "Not allowed"}, status=403)
-
-        placement = InternshipPlacement.objects.get(id=placement_id)
-
+        try:
+         placement = InternshipPlacement.objects.get(id=placement_id)
+        except InternshipPlacement.DoesNotExist:
+            return Response({"error": "Placement not found"},status=404)
         serializer = WorkplaceEvaluationSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -297,7 +298,7 @@ class WorkplaceEvaluationView(APIView):
             serializer.save( placement=placement,evaluator=request.user, workplace_total=workplace_total)
 
             return Response(serializer.data)
-
+        print(serializer.errors)
         return Response(serializer.errors, status=400)
     
 #for fetching backend comment
@@ -350,3 +351,30 @@ class PlacementScoreView(APIView):
                 "final_score": round(final_score, 2)})
         except Exception as e:
             return Response({"error": str(e)})
+
+class AssignedStudentsView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        role = request.user.role
+        if role == "workplace_supervisor":
+            supervisor = request.user.workplacesupervisor
+            placements = InternshipPlacement.objects.filter(workplace_supervisor=supervisor)
+
+        elif role == "academic_supervisor":
+            supervisor = request.user.academicsupervisor
+            placements = InternshipPlacement.objects.filter(academic_supervisor=supervisor)
+
+        else:
+            return Response({"error": "Not allowed"},status=403)
+
+        data = [
+            {
+                "placement_id": p.id,
+                "student_id": p.student.id,
+                "username": p.student.user.username,
+                "reg_no": p.student.reg_no
+            }
+            for p in placements
+        ]
+
+        return Response(data)

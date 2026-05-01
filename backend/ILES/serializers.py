@@ -50,11 +50,11 @@ class InternshipPlacementSerializer(serializers.ModelSerializer):
 class WorkplaceEvaluationSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkplaceEvaluation
-        fields = "__all__"
-        read_only_fields = ['placement','evaluator','total_score','date_evaluated']
+        fields = '__all__'
+        read_only_fields = ['placement','evaluator','workplace_total','date_evaluated']
 
 class AcademicEvaluationSerializer(serializers.ModelSerializer):
     class Meta:
         model = AcademicEvaluation
-        fields = "__all__"
-        read_only_fields = ['placement','evaluator','total_score','date_evaluated']
+        fields = '__all__'
+        read_only_fields = ['placement','evaluator','academic_total','date_evaluated']
