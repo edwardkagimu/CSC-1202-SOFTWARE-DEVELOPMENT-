@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.views import APIView
-from .models import WeeklyLog,Evaluation,Student,WorkplaceSupervisor,AcademicSupervisor,InternshipPlacement,EvaluationCriteria
+from .models import WeeklyLog,WorkplaceEvaluation,AcademicEvaluation,Student,WorkplaceSupervisor,AcademicSupervisor,InternshipPlacement
 from rest_framework.response import Response
-from .serializers import WeeklyLogSerializer,EvaluationSerializer,EvaluationCriteriaSerializer,StudentSerializer,WorkplaceSupervisorSerializer,AcademicSupervisorSerializer
+from .serializers import WeeklyLogSerializer,AcademicEvaluationSerializer,WorkplaceEvaluationSerializer,StudentSerializer,WorkplaceSupervisorSerializer,AcademicSupervisorSerializer
 from rest_framework.permissions import IsAuthenticated, BasePermission
-from datetime import date
+from datetime import date, timedelta
 # Create your views here.
 
 def test (request):
@@ -31,25 +31,49 @@ class DashboardView(APIView):
          role = (user.role or "").strip().lower()
          
          if user.role == 'student':
+          if not hasattr(user, "student"):
+             return Response({"error": "Student profile missing"}, status=400)
           student=user.student
+          placement = InternshipPlacement.objects.filter(student=student).first()
+
+          workplace_score = 0
+          academic_score = 0
+          final_score = 0
+
+          if placement:
+              workplace_eval = WorkplaceEvaluation.objects.filter(placement=placement).first()
+              academic_eval = AcademicEvaluation.objects.filter(placement=placement).first()
+          
+              if workplace_eval:
+                    workplace_score = float(workplace_eval.workplace_total)
+
+              if academic_eval:
+                  academic_score = float(academic_eval.academic_total)
+
+              final_score = (workplace_score + academic_score)
           data={
              "logs": WeeklyLog.objects.filter(placement__student=student).count(),
              "draft":WeeklyLog.objects.filter(placement__student=student,status="draft").count(),
              "reviewed":WeeklyLog.objects.filter(placement__student=student,status="reviewed").count(),
              "approved_logs":WeeklyLog.objects.filter(placement__student=student,status="approved").count(),
-             "evaluations":Evaluation.objects.filter(placement__student=student).count(),
+             "workplace_score":workplace_score,
+             "academic_score":academic_score,
+             "final_score":round(final_score,2),
             }
+          
          elif user.role == 'workplace_supervisor':
              workplace_supervisor=user.workplacesupervisor
              data={
                  "pending_logs":WeeklyLog.objects.filter(placement__workplace_supervisor=workplace_supervisor,status="submitted").count(),
                  "reviewed_logs":WeeklyLog.objects.filter(placement__workplace_supervisor=workplace_supervisor,status="reviewed").count(),
+                 "evaluated_students":WorkplaceEvaluation.objects.filter(evaluator=user).count()
              }
          elif user.role == 'academic_supervisor':
               academic_supervisor=user.academicsupervisor
               data={
                  "pending_logs":WeeklyLog.objects.filter(placement__academic_supervisor=academic_supervisor,status="reviewed").count(),
                  "approved_logs":WeeklyLog.objects.filter(placement__academic_supervisor=academic_supervisor,status="approved").count(),
+                 "evaluated_students":AcademicEvaluation.objects.filter(evaluator=user).count()
              }
          elif role == 'admin' or user.is_staff:
              
@@ -57,8 +81,10 @@ class DashboardView(APIView):
                  "students":Student.objects.count(),
                  "total_logs":WeeklyLog.objects.count(),
                  "approved_logs":WeeklyLog.objects.filter(status="approved").count(),
-                 "pending_logs":WeeklyLog.objects.filter(status="submitted").count(),
-                 "evaluations":Evaluation.objects.count()
+                 "submitted_logs":WeeklyLog.objects.filter(status="submitted").count(),
+                 "reviewed_logs":WeeklyLog.objects.filter(status="reviewed").count(),
+                 "workplace_evaluations":WorkplaceEvaluation.objects.count(),
+                 "academic_evaluations":AcademicEvaluation.objects.count()
              } 
          return Response({
              "user":{
@@ -92,8 +118,17 @@ class WeeklogListCreateView(APIView):
         except InternshipPlacement.DoesNotExist:
             return Response({"error":"No Placement assigned yet"},status=400)
         
-        #to validate week_number
-        week = request.data.get("week_number")
+        # DEADLINE LOGIC
+        # assume each week starts from placement.start_date
+        week_start = placement.start_date + timedelta(days=(week - 1) * 7)
+        deadline = week_start + timedelta(days=7)  # end of week
+
+        if date.today() > deadline:
+            return Response({"error": "Submission deadline passed"}, status=400)
+
+        
+        #to validate week_number prevent duplicates
+        week =int(request.data.get("week_number"))
         if WeeklyLog.objects.filter(placement=placement, week_number=week).exists():
                return Response({"error": "Log for this week already exists"}, status=400)
         
@@ -236,28 +271,82 @@ class DeleteLogView(APIView):
 
         log.delete()
         return Response({"message": "Log deleted successfully"})
-    
-class EvaluationView(APIView):
+
+class WorkplaceEvaluationView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
-        user = request.user
+    def post(self, request, placement_id):
 
-        if user.role not in ["workplace_supervisor", "academic_supervisor"]:
+        if request.user.role != "workplace_supervisor":
             return Response({"error": "Not allowed"}, status=403)
 
-        serializer = EvaluationSerializer(data=request.data)
+        placement = InternshipPlacement.objects.get(id=placement_id)
+
+        serializer = WorkplaceEvaluationSerializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.save(evaluator=user)
+
+            punctuality = int(request.data["punctuality"])
+            teamwork = int(request.data["teamwork"])
+            communication = int(request.data["communication"])
+            smartness = int(request.data["smartness"])
+            discipline = int(request.data["discipline"])
+
+            workplace_total = ( punctuality * 0.10 + teamwork * 0.10 + communication* 0.05 + smartness * 0.05 + discipline * 0.10) 
+
+            serializer.save( placement=placement,evaluator=request.user, workplace_total=workplace_total)
+
             return Response(serializer.data)
-        
+
         return Response(serializer.errors, status=400)
     
-class EvaluationCriteriaListView(APIView):
+#for fetching backend comment
+class WorkplaceEvaluationDetailView(APIView):
     permission_classes = [IsAuthenticated]
+    def get(self, request, placement_id):
+        try:
+            evaluation = WorkplaceEvaluation.objects.get( placement_id=placement_id )
+            serializer = WorkplaceEvaluationSerializer(evaluation)
+            return Response(serializer.data)
+        except WorkplaceEvaluation.DoesNotExist:
+            return Response({"error": "No workplace evaluation found"},status=404)
+        
+class AcademicEvaluationView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, placement_id):
+        if request.user.role != "academic_supervisor":return Response({"error": "Not allowed"},status=403)
 
-    def get(self, request):
-        criteria = EvaluationCriteria.objects.all()
-        serializer = EvaluationCriteriaSerializer(criteria, many=True)
-        return Response(serializer.data)
+        placement = InternshipPlacement.objects.get(id=placement_id)
+
+        technical = int(request.data["technical_skills"])
+        report = int(request.data["report_quality"])
+        solving = int(request.data["problem_solving"])
+        presentation = int(request.data["presentation"])
+
+        academic_total = (technical * 0.10  + report * 0.20 + solving * 0.20 + presentation * 0.10)
+
+        serializer = AcademicEvaluationSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save(placement=placement,evaluator=request.user,academic_total=academic_total)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+    
+class PlacementScoreView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, placement_id):
+        try:
+            placement = InternshipPlacement.objects.get(id=placement_id)
+            workplace = WorkplaceEvaluation.objects.filter(placement=placement).first()
+            academic = AcademicEvaluation.objects.filter(placement=placement).first()
+            workplace_score = (workplace.workplace_total if workplace else 0)
+            academic_score = (academic.academic_total if academic else 0)
+            final_score = (workplace_score + academic_score)
+
+            return Response({
+                "placement": placement.id,
+                "workplace_score": workplace_score,
+                "academic_score": academic_score,
+                "final_score": round(final_score, 2)})
+        except Exception as e:
+            return Response({"error": str(e)})

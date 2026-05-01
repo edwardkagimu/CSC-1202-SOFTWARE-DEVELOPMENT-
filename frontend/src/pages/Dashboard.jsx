@@ -56,9 +56,9 @@ export default function Dashboard() {
       {/*  HEADER */}
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
-          <h2>Dashboard</h2>
+          <h2>Internship Learning Evaluation System (ILES) </h2>
           <p>
-            Logged in as: <b>{user?.username}</b>
+             <b>Welcome back, {user?.username}</b>
           </p>
         </div>
 

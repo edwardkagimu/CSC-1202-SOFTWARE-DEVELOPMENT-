@@ -10,6 +10,7 @@ export default function AcademicDashboard({ stats, user }) {
       <div>
         <p>Pending Approval: {stats.pending_logs}</p>
         <p>Approved Logs: {stats.approved_logs}</p>
+        <p>Evaluated Students: {stats.evaluated_students}</p>
       </div>
 
       <button onClick={() => navigate("/academic/logs")}>Approve Logs</button>

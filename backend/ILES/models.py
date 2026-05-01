@@ -68,20 +68,42 @@ class WeeklyLog(models.Model):
     
     def __str__(self):
       return f"Week {self.week_number} - {self.placement.student.user.username}"
-    
 
-class EvaluationCriteria(models.Model):
-    name=models.CharField(max_length=100)
-    description=models.TextField(blank=True)
-    weight=models.DecimalField(max_digits=5,decimal_places=2)
-    
+class WorkplaceEvaluation(models.Model):
+    placement = models.OneToOneField(InternshipPlacement,on_delete=models.CASCADE)
+
+    evaluator = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+
+    punctuality = models.IntegerField()
+    teamwork = models.IntegerField()
+    communication = models.IntegerField()
+    smartness = models.IntegerField()
+    discipline = models.IntegerField()
+
+    comments = models.TextField(blank=True)
+
+    workplace_total = models.DecimalField(max_digits=5,decimal_places=2,default=0)
+
+    date_evaluated = models.DateField(auto_now_add=True)
+
     def __str__(self):
-        return self.name
-class Evaluation(models.Model):
-    placement=models.ForeignKey(InternshipPlacement,on_delete=models.CASCADE)
-    criteria=models.ForeignKey(EvaluationCriteria,on_delete=models.CASCADE)
-    evaluator=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
-    score=models.DecimalField(max_digits=3,decimal_places=2)
-    comments=models.TextField(blank=True)
-    date_evaluated=models.DateField(auto_now_add=True)
+        return f"Workplace Evaluation - {self.placement}"
+    
+class AcademicEvaluation(models.Model):
+    placement = models.OneToOneField(InternshipPlacement,on_delete=models.CASCADE)
 
+    evaluator = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+
+    technical_skills = models.IntegerField()
+    report_quality = models.IntegerField()
+    problem_solving = models.IntegerField()
+    presentation = models.IntegerField()
+
+    comments = models.TextField(blank=True)
+
+    academic_total = models.DecimalField(max_digits=5,decimal_places=2,default=0)
+
+    date_evaluated = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Academic Evaluation - {self.placement}"
