@@ -14,6 +14,7 @@ export default function AcademicDashboard({ stats, user }) {
       </div>
 
       <button onClick={() => navigate("/academic/logs")}>Approve Logs</button>
+      <button onClick={() => navigate("/academic-students") }>Assigned Students</button>
     </div>
   );
 }

@@ -51,9 +51,6 @@ export default function WorkplaceLogs() {
             <p><b>Challenges:</b> {log.challenges}</p>
             <p><b>Skills:</b> {log.skills_learned}</p>
 
-            <button onClick={() => navigate(`/workplace-evaluation/${log.placement_id}`)}>
-             Evaluate Intern
-            </button>
             <button onClick={() => confirmReview(log.id)}>
               Confirm Review
             </button>
