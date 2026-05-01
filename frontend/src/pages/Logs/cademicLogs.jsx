@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
-
+import { useNavigate } from "react-router-dom";
 export default function AcademicLogs() {
   const [logs, setLogs] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchLogs();
@@ -45,6 +46,9 @@ export default function AcademicLogs() {
             <p><b>Challenges:</b> {log.challenges}</p>
             <p><b>Skills:</b> {log.skills_learned}</p>
 
+            <button onClick={() => navigate(`/academic-evaluation/${log.placement_id}`)}>
+             Evaluate 
+            </button>            
             <button onClick={() => confirmApproval(log.id)}>
               Confirm Approval
             </button>

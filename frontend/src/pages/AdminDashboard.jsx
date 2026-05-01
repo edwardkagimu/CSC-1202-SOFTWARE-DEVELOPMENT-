@@ -9,10 +9,13 @@ export default function AdminDashboard({ stats, user }) {
       <p>Welcome, {user.username}</p>
 
       <div>
-        <p>Total Students: {stats.students}</p>
+        <p>Students: {stats.students}</p>
         <p>Total Logs: {stats.total_logs}</p>
+        <p>Submitted Logs: {stats.submitted_logs}</p>
+        <p>Reviewed Logs: {stats.reviewed_logs}</p>
         <p>Approved Logs: {stats.approved_logs}</p>
-        <p>Pending Logs: {stats.pending_logs}</p>
+        <p>Workplace Evaluations:{" "}{stats.workplace_evaluations}</p>
+      <p>Academic Evaluations:{" "}{stats.academic_evaluations}</p>
       </div>
 
       <button onClick={() => navigate("/assign-placement")} >Assign Students</button>

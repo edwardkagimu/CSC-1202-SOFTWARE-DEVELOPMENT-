@@ -10,10 +10,10 @@ export default function SupervisorDashboard({ stats, user }) {
       <div>
         <p>Pending Logs: {stats.pending_logs}</p>
         <p>Reviewed Logs: {stats.reviewed_logs}</p>
+        <p>Evaluated Students: {stats.evaluated_students}</p>
       </div>
 
       <button onClick={() => navigate("/workplace/logs")}>Review Logs</button>
-      <button>View Logs</button>
     </div>
   );
 }

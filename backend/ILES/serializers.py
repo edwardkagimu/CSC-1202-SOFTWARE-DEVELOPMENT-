@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import  Student, AcademicSupervisor, WorkplaceSupervisor, WeeklyLog, Evaluation, EvaluationCriteria, InternshipPlacement, Adminstrator
+from .models import  Student, AcademicSupervisor, WorkplaceSupervisor,AcademicEvaluation,WorkplaceEvaluation, WeeklyLog, InternshipPlacement, Adminstrator
 from accounts.models import CustomUser
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -47,12 +47,14 @@ class InternshipPlacementSerializer(serializers.ModelSerializer):
         model=InternshipPlacement
         fields='__all__'
 
-class EvaluationCriteriaSerializer(serializers.ModelSerializer):
+class WorkplaceEvaluationSerializer(serializers.ModelSerializer):
     class Meta:
-        model=EvaluationCriteria
-        fields='__all__'
+        model = WorkplaceEvaluation
+        fields = "__all__"
+        read_only_fields = ['placement','evaluator','total_score','date_evaluated']
 
-class EvaluationSerializer(serializers.ModelSerializer):
+class AcademicEvaluationSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Evaluation
-        fields='__all__'
+        model = AcademicEvaluation
+        fields = "__all__"
+        read_only_fields = ['placement','evaluator','total_score','date_evaluated']

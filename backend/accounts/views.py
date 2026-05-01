@@ -9,21 +9,6 @@ from rest_framework.permissions import AllowAny
 # Create your views here.
 
 @api_view(['POST'])
-def login(request):
-    username=request.data.get('username')
-    password=request.data.get('password')
-
-    if not username or not password:
-        return Response({'error':'username and password required'})
-    
-    user = authenticate(request,username=username,password=password)
-    if user is None:
-        return Response({'error':'Invalid crendentials'})
-    else:
-        return Response({'message':'login successfully'})
-
-
-@api_view(['POST'])
 @permission_classes([AllowAny])
 def signup(request):
     username=request.data.get('username')
