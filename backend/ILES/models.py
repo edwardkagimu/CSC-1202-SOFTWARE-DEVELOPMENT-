@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-
+from datetime import timedelta
 STATUS_CHOICES=[
     ("draft",'draft'),
     ("submitted",'submitted'),
@@ -8,9 +8,6 @@ STATUS_CHOICES=[
     ('approved','Approved'),
 ]
 # Create your models here.
-
-
-    
 # Profile per role
 
 class Student(models.Model):
@@ -65,6 +62,12 @@ class WeeklyLog(models.Model):
     skills_learned=models.CharField(max_length=100)
     date_submitted=models.DateField(max_length=100)
     status=models.CharField(max_length=20,choices=STATUS_CHOICES,default='draft')
+    deadline=models.DateField(null=True,blank=True)
+    #Enforce deadline 
+    def save(self,*args,**kwargs):
+        if self.placement and self.week_number:
+            self.deadline=(self.placement.start_date + timedelta(days=7 * self.week_number))
+        super().save(*args,**kwargs)
     
     def __str__(self):
       return f"Week {self.week_number} - {self.placement.student.user.username}"

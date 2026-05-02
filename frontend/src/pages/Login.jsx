@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-
+import { Link } from "react-router-dom";
 export default function Login() {
   const { login } = useContext(AuthContext);
 
@@ -31,6 +31,8 @@ export default function Login() {
       />
 
       <button onClick={handleLogin}>Login</button>
+
+      <p>Don`t have account?{" "}<Link to="/signup">Sign up</Link></p>
     </div>
   );
 }
