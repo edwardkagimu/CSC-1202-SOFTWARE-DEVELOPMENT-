@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axiosInstance, { ENDPOINTS } from "../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -68,6 +68,7 @@ export default function Signup() {
       )}
 
       <button onClick={handleSignup}>Sign Up</button>
+      <p>Already have account?{" "}<Link to="/login">Login</Link></p>
     </div>
   );
 }

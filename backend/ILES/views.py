@@ -122,12 +122,10 @@ class WeeklogListCreateView(APIView):
         # DEADLINE LOGIC
         week =int(request.data.get("week_number"))
         # assume each week starts from placement.start_date
-        week_start = placement.start_date + timedelta(days=(week - 1) * 7)
-        deadline = week_start + timedelta(days=7)  # end of week
+        deadline = placement.start_date + timedelta(days=7 * week)
 
         if date.today() > deadline:
             return Response({"error": "Submission deadline passed"}, status=400)
-
         
         #to validate week_number prevent duplicates
         if WeeklyLog.objects.filter(placement=placement, week_number=week).exists():
