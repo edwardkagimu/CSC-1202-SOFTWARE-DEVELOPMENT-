@@ -16,6 +16,7 @@ import AcademicEvaluation from './pages/Evaluations/AcademicEvaluation';
 import WorkplaceEvaluation from './pages/Evaluations/WorkplaceEvaluation';
 import AssignedStudents from './pages/AssignedStudents/WorkplaceStudents'
 import AssignedStudent from './pages/AssignedStudents/AcademicStudents';
+import ManageUsers from './pages/AssignedStudents/ManageUsers';
 function App() {
   return (
     <Router>
@@ -41,6 +42,7 @@ function App() {
           <Route path="/workplace-evaluation/:placementId" element={<WorkplaceEvaluation />}/>
           <Route path="/workplace-students" element={<AssignedStudents/>}/>
           <Route path="/academic-students" element={<AssignedStudent/>}/>
+          <Route path="/manage-users" element={<ManageUsers/>}/>
           <Route
             path="/submit-log"
             element={

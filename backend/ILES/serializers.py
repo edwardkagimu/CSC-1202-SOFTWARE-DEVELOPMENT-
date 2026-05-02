@@ -12,7 +12,7 @@ class StudentSerializer(serializers.ModelSerializer):
      
     class Meta:
         model=Student
-        fields=['id','username','student_reg_no']
+        fields=['id','username','reg_no']
 
 class WorkplaceSupervisorSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username")

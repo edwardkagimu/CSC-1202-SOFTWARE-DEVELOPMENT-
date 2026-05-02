@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import WeeklogListCreateView, ApproveLogView,AssignedStudentsView,AcademicEvaluationView,WorkplaceEvaluationView,WorkplaceEvaluationDetailView,PlacementScoreView,SubmitLogView,DeleteLogView,UsersListView, Workplace_SupervisorLogsView, Academic_SupervisorLogsView,DashboardView,AssignPlacementView
+from .views import WeeklogListCreateView,ManageUsersView,DeleteUserView, ApproveLogView,AssignedStudentsView,AcademicEvaluationView,WorkplaceEvaluationView,WorkplaceEvaluationDetailView,PlacementScoreView,SubmitLogView,DeleteLogView,UsersListView, Workplace_SupervisorLogsView, Academic_SupervisorLogsView,DashboardView,AssignPlacementView
 
 urlpatterns = [
     path('test/',views.test , name='test'),
@@ -18,6 +18,9 @@ urlpatterns = [
     path('workplace-comment/<int:placement_id>/',WorkplaceEvaluationDetailView.as_view()),
     path('academic-evaluation/<int:placement_id>/',AcademicEvaluationView.as_view()),
     path('workplace-evaluation/<int:placement_id>/',WorkplaceEvaluationView.as_view()),
-    path("assigned-students/",AssignedStudentsView.as_view())
+    path("assigned-students/",AssignedStudentsView.as_view()),
+
+    path("manage-users/", ManageUsersView.as_view()),
+    path("api/delete-user/<int:user_id>/",DeleteUserView.as_view()),
     ]
 

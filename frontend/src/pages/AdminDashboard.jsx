@@ -19,7 +19,7 @@ export default function AdminDashboard({ stats, user }) {
       </div>
 
       <button onClick={() => navigate("/assign-placement")} >Assign Students</button>
-      <button>Manage Users</button>
+      <button onClick={() => navigate("/manage-users")}>Manage Users</button>
     </div>
   );
 }
