@@ -40,7 +40,7 @@ function App() {
           <Route path="/academic-evaluation/:placementId"  element={<AcademicEvaluation />}/>
           <Route path="/workplace-evaluation/:placementId" element={<WorkplaceEvaluation />}/>
           <Route path="/workplace-students" element={<AssignedStudents/>}/>
-          <Route path="/academic-students" element={<AssignedStudents/>}/>
+          <Route path="/academic-students" element={<AssignedStudent/>}/>
           <Route
             path="/submit-log"
             element={
