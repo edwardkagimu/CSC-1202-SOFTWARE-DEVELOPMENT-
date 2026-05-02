@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from .serializers import WeeklyLogSerializer,AcademicEvaluationSerializer,WorkplaceEvaluationSerializer,StudentSerializer,WorkplaceSupervisorSerializer,AcademicSupervisorSerializer
 from rest_framework.permissions import IsAuthenticated, BasePermission
 from datetime import date, timedelta
+from accounts.models import CustomUser
 # Create your views here.
 
 def test (request):
@@ -378,3 +379,64 @@ class AssignedStudentsView(APIView):
         ]
 
         return Response(data)
+
+class ManageUsersView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        role=(request.user.role or "").strip().lower()
+        user=request.user
+        if role !=  "admin" or user.is_staff:
+            return Response({"error": "Not allowed"},status=403 )
+
+        students = Student.objects.all()
+
+        data = []
+
+        for s in students:
+            placement = InternshipPlacement.objects.filter( student=s).first()
+            data.append({
+                "id": s.user.id,
+                "username": s.user.username,
+                "role": "student",
+                "reg_no": s.reg_no,
+                "workplace_supervisor":placement.workplace_supervisor.user.username
+                    if placement and placement.workplace_supervisor
+                    else None,
+
+                "academic_supervisor":
+                    placement.academic_supervisor.user.username
+                    if placement and placement.academic_supervisor
+                    else None
+            })
+
+        workplace_supervisors = WorkplaceSupervisor.objects.all()
+
+        for w in workplace_supervisors:
+            data.append({
+                "id": w.user.id,
+                "username": w.user.username,
+                "role": "workplace_supervisor"
+            })
+
+        academic_supervisors = AcademicSupervisor.objects.all()
+        for a in academic_supervisors:
+            data.append({
+                "id": a.user.id,
+                "username": a.user.username,
+                "role": "academic_supervisor"
+            })
+
+        return Response(data)
+    
+class DeleteUserView(APIView):
+    permission_classes = [IsAuthenticated]
+    def delete(self, request, user_id):
+        if request.user.role != "admin":
+            return Response({"error": "Not allowed"},status=403)
+
+        try:
+            user = CustomUser.objects.get(id=user_id)
+            user.delete()
+            return Response({"message": "User deleted"})
+        except CustomUser.DoesNotExist:
+            return Response({"error": "User not found"}, status=404)
