@@ -244,16 +244,25 @@ class SubmitLogView(APIView):
     
 class UsersListView(APIView):
     permission_classes = [IsAuthenticated]
-
+    
     def get(self, request):
-        students = Student.objects.all()
+        if request.user.role != 'admin' :
+            return Response({"error":"Not allowed"}, status=403)
+        #get assigned student IDs
+        assigned_students=InternshipPlacement.objects.values_list("student_id",flat=True)
+        
+        students = Student.objects.exclude(id__in=assigned_students)
         workplaces = WorkplaceSupervisor.objects.all()
         academics = AcademicSupervisor.objects.all()
 
+        student_data=StudentSerializer(students,many=True).data
+        workplace_data=WorkplaceSupervisorSerializer(workplaces,many=True).data
+        academic_data=AcademicSupervisorSerializer(academics,many=True).data
+
         return Response({
-            "students": StudentSerializer(students, many=True).data,
-            "workplace_supervisors": WorkplaceSupervisorSerializer(workplaces, many=True).data,
-            "academic_supervisors": AcademicSupervisorSerializer(academics, many=True).data,
+            "students": student_data,
+            "workplace_supervisors": workplace_data,
+            "academic_supervisors": academic_data,
         })
     
 class DeleteLogView(APIView):
