@@ -81,13 +81,13 @@ export default function AssignPlacement() {
       <h2>Assign Internship Placement</h2>
 
       {/* STUDENT */}
-      <label>Student</label>
+      <label><b>Student</b></label>
       <br />
       <select value={student} onChange={(e) => setStudent(e.target.value)}>
         <option value="">Select Student</option>
         {students.map((s) => (
           <option key={s.id} value={s.id}>
-            {s.student_reg_no} - {s.username}
+            {s.reg_no} - {s.username}
           </option>
         ))}
       </select>
@@ -95,7 +95,7 @@ export default function AssignPlacement() {
       <br /><br />
 
       {/* WORKPLACE SUPERVISOR */}
-      <label>Workplace Supervisor</label>
+      <label><b>Workplace Supervisor</b></label>
       <br />
       <select value={workplace} onChange={(e) => setWorkplace(e.target.value)}>
         <option value="">Select Workplace Supervisor</option>
@@ -109,7 +109,7 @@ export default function AssignPlacement() {
       <br /><br />
 
       {/* ACADEMIC SUPERVISOR */}
-      <label>Academic Supervisor</label>
+      <label><b>Academic Supervisor</b></label>
       <br />
       <select value={academic} onChange={(e) => setAcademic(e.target.value)}>
         <option value="">Select Academic Supervisor</option>
@@ -123,7 +123,7 @@ export default function AssignPlacement() {
       <br /><br />
 
       {/* COMPANY DETAILS */}
-      <label>Company Name</label>
+      <label><b>Company Name</b></label>
       <br />
       <input
         type="text"
@@ -133,7 +133,7 @@ export default function AssignPlacement() {
 
       <br /><br />
 
-      <label>Company Address</label>
+      <label><b>Company Address</b></label>
       <br />
       <input
         type="text"
@@ -144,7 +144,7 @@ export default function AssignPlacement() {
       <br /><br />
 
       {/* DATES */}
-      <label>Start Date</label>
+      <label><b>Start Date</b></label>
       <br />
       <input
         type="date"
@@ -154,7 +154,7 @@ export default function AssignPlacement() {
 
       <br /><br />
 
-      <label>End Date</label>
+      <label><b>End Date</b></label>
       <br />
       <input
         type="date"

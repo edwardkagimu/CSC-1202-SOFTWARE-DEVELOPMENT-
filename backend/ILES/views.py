@@ -204,8 +204,10 @@ class AssignPlacementView(APIView):
          student = Student.objects.get(id=request.data["student_id"])
          wp = WorkplaceSupervisor.objects.get(id=request.data["workplace_supervisor_id"])
          ac = AcademicSupervisor.objects.get(id=request.data["academic_supervisor_id"])
-
-         placement, created = InternshipPlacement.objects.update_or_create(
+         
+         if InternshipPlacement.objects.flter(student=student).exixts():
+             return Response({"error":"Student already assigned"},status=400)
+         placement = InternshipPlacement.objects.create(
              student=student,
             #to prevent a student from being assigned multiple times
              defaults={
@@ -392,7 +394,7 @@ class ManageUsersView(APIView):
     def get(self, request):
         role=(request.user.role or "").strip().lower()
         user=request.user
-        if role !=  "admin" or user.is_staff:
+        if role !=  "admin":
             return Response({"error": "Not allowed"},status=403 )
 
         students = Student.objects.all()
