@@ -5,7 +5,7 @@ from .models import WeeklyLog,WorkplaceEvaluation,AcademicEvaluation,Student,Wor
 from rest_framework.response import Response
 from .serializers import WeeklyLogSerializer,AcademicEvaluationSerializer,WorkplaceEvaluationSerializer,StudentSerializer,WorkplaceSupervisorSerializer,AcademicSupervisorSerializer
 from rest_framework.permissions import IsAuthenticated, BasePermission
-from datetime import date, timedelta
+from datetime import date, timedelta,datetime
 from accounts.models import CustomUser
 # Create your views here.
 
@@ -122,7 +122,10 @@ class WeeklogListCreateView(APIView):
         # DEADLINE LOGIC
         week =int(request.data.get("week_number"))
         # assume each week starts from placement.start_date
-        deadline = placement.start_date + timedelta(days=7 * week)
+        start_date=placement.start_date
+        if isinstance(start_date,str):
+            start_date=datetime.strptime(start_date).date()
+        deadline = start_date + timedelta(days=7 * int(week))
 
         if date.today() > deadline:
             return Response({"error": "Submission deadline passed"}, status=400)
@@ -185,7 +188,7 @@ class ApproveLogView(APIView):
                 return Response({"error": "Not your log"}, status=403)
             
             if log.status != "reviewed":
-                return Response({"error": "Only submitted logs can be reviewed"}, status=400)
+                return Response({"error": "Only reviewed logs can be approved"}, status=400)
 
             log.status = "approved"
         else:
@@ -205,19 +208,19 @@ class AssignPlacementView(APIView):
          wp = WorkplaceSupervisor.objects.get(id=request.data["workplace_supervisor_id"])
          ac = AcademicSupervisor.objects.get(id=request.data["academic_supervisor_id"])
          
-         if InternshipPlacement.objects.flter(student=student).exixts():
+         if InternshipPlacement.objects.filter(student=student).exists():
              return Response({"error":"Student already assigned"},status=400)
          placement = InternshipPlacement.objects.create(
              student=student,
             #to prevent a student from being assigned multiple times
-             defaults={
-              "workplace_supervisor":wp,
-              "academic_supervisor":ac,
-              "company_name":request.data["company_name"],
-              "company_address":request.data["company_address"],
-              "start_date":request.data["start_date"],
-              "end_date":request.data["end_date"]
-             }
+             
+             workplace_supervisor=wp,
+             academic_supervisor=ac,
+             company_name=request.data["company_name"],
+             company_address=request.data["company_address"],
+             start_date=request.data["start_date"],
+             end_date=request.data["end_date"]
+             
          )
 
          return Response({"message": "Assigned successfully",

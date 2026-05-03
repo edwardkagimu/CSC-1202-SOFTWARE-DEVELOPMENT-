@@ -64,10 +64,7 @@ class WeeklyLog(models.Model):
     status=models.CharField(max_length=20,choices=STATUS_CHOICES,default='draft')
     deadline=models.DateField(null=True,blank=True)
     #Enforce deadline 
-    def save(self,*args,**kwargs):
-        if self.placement and self.week_number:
-            self.deadline=(self.placement.start_date + timedelta(days=7 * self.week_number))
-        super().save(*args,**kwargs)
+
     
     def __str__(self):
       return f"Week {self.week_number} - {self.placement.student.user.username}"
