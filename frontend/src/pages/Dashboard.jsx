@@ -6,7 +6,7 @@ import StudentDashboard from "./StudentDashboard";
 import SupervisorDashboard from "./SupervisorDashboard";
 import AcademicDashboard from "./AcademicDashboard";
 import AdminDashboard from "./AdminDashboard";
-
+import '../App.css';
 export default function Dashboard() {
   const { user, logout } = useContext(AuthContext);
   const [stats, setStats] = useState({});
@@ -51,26 +51,25 @@ export default function Dashboard() {
 
 
   return (
-   <div style={{ padding: "20px" }}>
+   <div className="dash-container" style={{ padding: "20px" }}>
       
       {/*  HEADER */}
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div className="dash-card" style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
-          <h2>Internship Learning Evaluation System (ILES) </h2>
+          <h2 className="dash-title">Internship Learning Evaluation System (ILES) </h2>
           <p>
              <b>Welcome back, {user?.username}</b>
           </p>
         </div>
 
-       
+       <hr />
+
+       {/* ROLE-BASED DASHBOARD */}
+       <div className="dash-content">
+         {content}  
+         <button onClick={logout}>Logout</button>
+       </div>
       </div>
-
-      <hr />
-
-      {/* ROLE-BASED DASHBOARD */}
-      {content}  
-      <button onClick={logout}>Logout</button>
-
     </div>
   );
 }

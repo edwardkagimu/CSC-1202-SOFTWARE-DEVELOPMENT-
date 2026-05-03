@@ -36,3 +36,74 @@
     transform: rotate(360deg);
   }
 }
+.dash-title{
+  text-align: left;
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #2f97ed;
+}
+
+.dash-card{
+  width: 90%;
+  max-width: 1000px;
+  max-height: 80vh;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(0, 0,0,0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column; 
+}
+
+.dash-container{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f6f9;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f6fa;
+}
+
+.app-title{
+  font-size: 22px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.login-title{
+  margin-bottom: 20px;
+  font-size: 18;
+}
+
+.login-btn{
+  width: 100%;
+  padding: 10px;
+  background: #2f80ed;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.login-box{
+  width: 350px;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0,0,0.1);
+  text-align: center;
+}
+
+.dash-content{
+  flex: 1;
+  padding: 10px;
+}
