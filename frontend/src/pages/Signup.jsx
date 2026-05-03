@@ -2,6 +2,7 @@ import { useState } from "react";
 import axiosInstance, { ENDPOINTS } from "../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import '../App.css';
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -32,43 +33,47 @@ export default function Signup() {
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
+    <div className="login-container">
+      <div className="login-box">
+       <h1 className="app-title">Internship Learning Evaluation System</h1>
 
-      <input
-        placeholder="username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        placeholder="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+       <h2 className="login-title">Sign Up</h2>
 
-      <input
-        type="password"
-        value={password}
-        placeholder="password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-
-      <select value={role} onChange={(e) => setRole(e.target.value)}>
-        <option value="student">Student</option>
-        <option value="workplace_supervisor">Workplace Supervisor</option>
-        <option value="academic_supervisor">Academic Supervisor</option>
-      </select>
-
-      {role === "student" && (
-        <input
-          placeholder="Registration Number"
-          value={reg_no}
-          onChange={(e) => setReg_no(e.target.value)}
+       <input
+          placeholder="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
-      )}
+        <input
+          placeholder="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <button onClick={handleSignup}>Sign Up</button>
-      <p>Already have account?{" "}<Link to="/login">Login</Link></p>
+        <input
+          type="password"
+          value={password}
+         placeholder="password"
+         onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <select value={role} onChange={(e) => setRole(e.target.value)}>
+          <option value="student">Student</option>
+          <option value="workplace_supervisor">Workplace Supervisor</option>
+          <option value="academic_supervisor">Academic Supervisor</option>
+        </select>
+
+        {role === "student" && (
+          <input
+            placeholder="Registration Number"
+            value={reg_no}
+            onChange={(e) => setReg_no(e.target.value)}
+          />
+        )}
+
+       <button className="login-btn" onClick={handleSignup}>Sign Up</button>
+       <p>Already have account?{" "}<Link to="/login">Login</Link></p>
+      </div>
     </div>
   );
 }
