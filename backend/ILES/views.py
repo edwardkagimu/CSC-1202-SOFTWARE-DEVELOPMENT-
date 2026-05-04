@@ -128,11 +128,11 @@ class WeeklogListCreateView(APIView):
         deadline = start_date + timedelta(days=7 * int(week))
 
         if date.today() > deadline:
-            return Response({"error": "Submission deadline passed"}, status=400)
+            return Response({"error": "Deadline passed"}, status=400)
         
         #to validate week_number prevent duplicates
         if WeeklyLog.objects.filter(placement=placement, week_number=week).exists():
-               return Response({"error": "Log for this week already exists"}, status=400)
+               return Response({"error": "Already submitted for this week"}, status=400)
         
         serializer=WeeklyLogSerializer(data=request.data)
         if serializer.is_valid():
