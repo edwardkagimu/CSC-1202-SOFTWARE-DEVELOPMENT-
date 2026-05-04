@@ -90,6 +90,11 @@ export const AuthProvider = ({ children }) => {
          throw error;
         }
     };
+    return(
+        <AuthContext.Provider
+        value={{user,setUser}}>{children}</AuthContext.Provider>
+    )
 
 };
+
 
