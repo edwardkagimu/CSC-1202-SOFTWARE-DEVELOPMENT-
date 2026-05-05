@@ -10,16 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
-from pathlib import Path
-
-#for render deployment
-import dj_database_url
-import os
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
+#print("DATABASE_URL =", env("DATABASE_URL"))
+#print("ENV FILE PATH:", Path(BASE_DIR).parent / ".env")
+#print("DATABASE_URL:", env("DATABASE_URL"))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -62,6 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -87,16 +81,19 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+import environ
+from pathlib import Path
+import dj_database_url
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+
 DATABASES = {
-    'default': {
-        'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
-            conn_max_age=600
-        )
-    }
+    'default': dj_database_url.parse(
+        "postgresql://internship_db_fpf7_user:5K07aoKcGvxDjCjvytQ3eeeaRqolXfuo@dpg-d7srvbrbc2fs73d2g91g-a.frankfurt-postgres.render.com/internship_db_fpf7"
+    )
 }
-
-
+#print(env("DATABASE_URL"))
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
@@ -132,7 +129,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATIC_ROOT=BASE_DIR / "staticfiles"
 #to clear django conflicts with absract user and user models
 #app name =accounts, model = CustomUser
 AUTH_USER_MODEL= "accounts.CustomUser"
