@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-c$6z01g7o^=-@gk%r3#6ym6@z46!y_j#u8itr*k$2^fk=&wy_s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    ".onrender.com"
+]
 
 
 # Application definition
@@ -151,6 +155,7 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+
 ]
 
 #for pytest
