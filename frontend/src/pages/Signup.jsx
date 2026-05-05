@@ -72,7 +72,7 @@ export default function Signup() {
         )}
 
        <button className="login-btn" onClick={handleSignup}>Sign Up</button>
-       <p>Already have account?{" "}<Link to="/login">Login</Link></p>
+       <p>Already have account ?{" "}<Link to="/login">Login</Link></p>
       </div>
     </div>
   );
