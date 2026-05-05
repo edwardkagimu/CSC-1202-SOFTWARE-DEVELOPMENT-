@@ -4,7 +4,6 @@ import { AuthProvider } from './context/AuthContext';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import LogForm from './pages/Logs/LogForm';
 import ProtectedRoute from './components/ProtectedRoute';
 import AssignPlacement from './pages/pages/AssignPlacement';
 import CreateLog from './pages/Logs/CreateLog';
@@ -43,14 +42,7 @@ function App() {
           <Route path="/workplace-students" element={<AssignedStudents/>}/>
           <Route path="/academic-students" element={<AssignedStudent/>}/>
           <Route path="/manage-users" element={<ManageUsers/>}/>
-          <Route
-            path="/submit-log"
-            element={
-              <ProtectedRoute>
-                <LogForm />
-              </ProtectedRoute>
-            }
-          />
+
 
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
