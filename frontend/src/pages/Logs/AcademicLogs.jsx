@@ -3,7 +3,6 @@ import axiosInstance from "../../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 export default function AcademicLogs() {
   const [logs, setLogs] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchLogs();

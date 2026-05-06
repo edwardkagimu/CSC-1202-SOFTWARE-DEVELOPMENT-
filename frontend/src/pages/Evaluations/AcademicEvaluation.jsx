@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
 
@@ -15,21 +15,21 @@ export default function AcademicEvaluation() {
 
   const [comments, setComments] = useState("");
 
+const fetchWorkplaceEvaluation = useCallback(async () => {
+  try {
+    const res = await axiosInstance.get(`workplace-comment/${placementId}/`);
+
+    setWorkplaceComment(res.data.comments);
+
+  } catch (err) {
+    console.log(err.response?.data || err);
+  }
+}, [placementId]);
+
   useEffect(() => {
     fetchWorkplaceEvaluation();
-  }, []);
-
-  const fetchWorkplaceEvaluation = async () => {
-    try {
-      const res = await axiosInstance.get(`workplace-comment/${placementId}/`);
-
-      setWorkplaceComment(res.data.comments);
-
-    } catch (err) {
-      console.log(err.response?.data || err);
-    }
-  };
-
+  }, [fetchWorkplaceEvaluation]);
+  
   const submitEvaluation = async () => {
     try {
 

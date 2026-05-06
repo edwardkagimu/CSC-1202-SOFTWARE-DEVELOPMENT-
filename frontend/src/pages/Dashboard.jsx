@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axiosInstance, { ENDPOINTS } from "../api/axiosInstance";
 
@@ -12,24 +12,24 @@ export default function Dashboard() {
   const [stats, setStats] = useState({});
   const [userInfo, setUserInfo] = useState(null);
 
+const fetchDashboardData = useCallback(async () => {
+  try {
+    const res = await axiosInstance.get(ENDPOINTS.dashboard);
+
+    console.log("DASHBOARD DATA:", res.data);
+    console.log("USER FROM CONTEXT:", user);
+
+    setUserInfo(res.data.user);
+    setStats(res.data.data);
+
+  } catch (err) {
+    console.log(err);
+  }
+}, [user]);
+
   useEffect(() => {
     fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
-    try {
-      const res = await axiosInstance.get(ENDPOINTS.dashboard);
-
-      console.log("DASHBOARD DATA:", res.data); 
-      console.log("USER FROM CONTEXT:", user);
-      
-      setUserInfo(res.data.user);
-      setStats(res.data.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  }, [fetchDashboardData]);
   //loading state
   if (!userInfo) return <p>Loading...</p>;
 

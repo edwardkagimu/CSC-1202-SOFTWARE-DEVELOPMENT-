@@ -89,7 +89,7 @@ export default function MyLogs() {
             )}
 
             {/*ONLY SHOW delete BUTTON FOR DRAFT */}
-            {log.status === "draft" || log.status === "submitted" && (
+            {log.status === "draft" || log.status === "submitted" (
               <>
 
               <button onClick={() => deleteLog(log.id)}

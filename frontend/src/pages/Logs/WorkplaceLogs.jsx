@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function WorkplaceLogs() {
   const [logs, setLogs] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchLogs();

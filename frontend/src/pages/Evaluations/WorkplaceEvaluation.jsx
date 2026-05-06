@@ -14,7 +14,6 @@ export default function WorkplaceEvaluation() {
 
   const [comments, setComments] = useState("");
   
-  const navigate = useNavigate();
   
   const submitEvaluation = async () => {
 
