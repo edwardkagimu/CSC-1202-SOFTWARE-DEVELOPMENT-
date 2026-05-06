@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
-import { useNavigate } from "react-router-dom";
 
 export default function WorkplaceLogs() {
   const [logs, setLogs] = useState([]);
