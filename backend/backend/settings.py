@@ -35,7 +35,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    ".onrender.com"
+    ".onrender.com",
+    "internship-system-8pdi.onrender.com",
 ]
 
 
@@ -154,8 +155,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "https://internship-system-8pdi.onrender.com",
     "https://internship-learning-evaluation-system.vercel.app",
+]
 
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://internship-learning-evaluation-system.vercel.app",
+    "https://internship-system-8pdi.onrender.com",
 ]
 CORS_ALLOW_CREDENTIALS = True
 #for pytest
