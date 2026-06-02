@@ -92,8 +92,13 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+#DATABASES = {
+#    "default": dj_database_url.parse(os.getenv("DATABASE_URL"))
+#}
 DATABASES = {
-    "default": dj_database_url.parse(os.getenv("DATABASE_URL"))
+    'default': dj_database_url.parse(
+        "postgresql://neondb_owner:npg_Gg5B6RHjzXSr@ep-shiny-meadow-ablii0d5-pooler.eu-west-2.aws.neon.tech/iles-database?sslmode=require&channel_binding=require"
+    )
 }
 
 AUTH_PASSWORD_VALIDATORS = [
