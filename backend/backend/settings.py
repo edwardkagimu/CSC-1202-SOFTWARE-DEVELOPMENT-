@@ -92,13 +92,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-#DATABASES = {
-#    "default": dj_database_url.parse(os.getenv("DATABASE_URL"))
-#}
 DATABASES = {
-    'default': dj_database_url.parse(
-        "postgresql://neondb_owner:npg_Gg5B6RHjzXSr@ep-shiny-meadow-ablii0d5-pooler.eu-west-2.aws.neon.tech/iles-database?sslmode=require&channel_binding=require"
-    )
+    "default": dj_database_url.parse(os.getenv("DATABASE_URL"))
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -165,6 +160,8 @@ CORS_ALLOWED_ORIGINS = [
 CSRF_TRUSTED_ORIGINS = [
     "https://internship-learning-evaluation-system.vercel.app",
     "https://internship-system-8pdi.onrender.com",
+    "https://internshipsystemgroup2-5md25wzwp-ssewajje-elvin-alexs-projects.vercel.app",
+    "hhtps://internshipsystemgroup2-git-main-ssewajje-elvin-alexs-projects.vercel.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
 #for pytest
