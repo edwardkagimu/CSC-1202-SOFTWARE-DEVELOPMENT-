@@ -2,7 +2,8 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
     // The base URL for your local Django development server
-    baseURL: process.env.REACT_APP_API_URL, 
+    //baseURL: process.env.REACT_APP_API_URL, 
+    baseURL: "https://internship-system-8pdi.onrender.com",
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
