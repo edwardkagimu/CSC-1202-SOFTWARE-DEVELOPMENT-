@@ -36,7 +36,6 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     ".onrender.com",
-    "internship-system-8pdi.onrender.com",
 ]
 
 
@@ -59,14 +58,13 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -161,7 +159,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://internship-learning-evaluation-system.vercel.app",
     "https://internship-system-8pdi.onrender.com",
     "https://internshipsystemgroup2-5md25wzwp-ssewajje-elvin-alexs-projects.vercel.app",
-    "hhtps://internshipsystemgroup2-git-main-ssewajje-elvin-alexs-projects.vercel.app",
+    "https://internshipsystemgroup2-git-main-ssewajje-elvin-alexs-projects.vercel.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
 #for pytest
