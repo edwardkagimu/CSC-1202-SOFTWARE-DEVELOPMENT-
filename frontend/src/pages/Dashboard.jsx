@@ -51,7 +51,7 @@ const fetchDashboardData = useCallback(async () => {
 
 
   return (
-   <div className="dash-container" style={{ padding: "20px" }}>
+   <div className="dashboard-container" style={{ padding: "20px" }}>
       
       {/*  HEADER */}
       <div className="dash-card" style={{ display: "flex", justifyContent: "space-between" }}>
@@ -65,9 +65,11 @@ const fetchDashboardData = useCallback(async () => {
        <hr />
 
        {/* ROLE-BASED DASHBOARD */}
-       <div className="dash-content">
+       <div className="actions-section">
          {content}  
-         <button onClick={logout}>Logout</button>
+         <div className="button-group">
+           <button className="action-out" onClick={logout}>Logout</button>
+         </div>      
        </div>
       </div>
     </div>
