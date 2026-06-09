@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
-
+import "../../App.css";
 export default function WorkplaceLogs() {
   const [logs, setLogs] = useState([]);
 
@@ -33,7 +33,7 @@ export default function WorkplaceLogs() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>Submitted Logs (Workplace)</h2>
+      <h2 className="mylogs-title" >Submitted Logs (Workplace)</h2>
 
       {logs.length === 0 ? (
         <p>No logs to review</p>
@@ -49,7 +49,7 @@ export default function WorkplaceLogs() {
             <p><b>Challenges:</b> {log.challenges}</p>
             <p><b>Skills:</b> {log.skills_learned}</p>
 
-            <button onClick={() => confirmReview(log.id)}>
+            <button className="confirm" onClick={() => confirmReview(log.id)}>
               Confirm Review
             </button>
 

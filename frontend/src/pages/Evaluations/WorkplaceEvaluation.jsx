@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
-
+import "../../App.css";
 export default function WorkplaceEvaluation() {
 
   const { placementId } = useParams();

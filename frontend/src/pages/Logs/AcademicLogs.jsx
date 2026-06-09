@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
-
+import "../../App.css";
 export default function AcademicLogs() {
   const [logs, setLogs] = useState([]);
 
@@ -31,7 +31,7 @@ export default function AcademicLogs() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>Reviewed Logs (Academic)</h2>
+      <h2 className="mylogs-title" >Reviewed Logs (Academic)</h2>
 
       {logs.length === 0 ? (
         <p>No logs to approve</p>
@@ -45,7 +45,7 @@ export default function AcademicLogs() {
             <p><b>Challenges:</b> {log.challenges}</p>
             <p><b>Skills:</b> {log.skills_learned}</p>
 
-            <button onClick={() => confirmApproval(log.id)}>
+            <button className="confirm" onClick={() => confirmApproval(log.id)}>
               Confirm Approval
             </button>
           </div>

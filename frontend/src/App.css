@@ -81,6 +81,7 @@
 .login-title{
   margin-bottom: 20px;
   font-size: 18;
+  color:#2f80ed;
 }
 
 .login-btn{
@@ -292,4 +293,84 @@
   .score-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.log-detail {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.mylogs-title {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 2rem;
+}
+
+.empty {
+  text-align: center;
+  color: gray;
+  margin-top: 40px;
+}
+
+.create-log-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.save-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.save-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.confirm {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirm:hover {
+  background-color: #388e3c;
 }
