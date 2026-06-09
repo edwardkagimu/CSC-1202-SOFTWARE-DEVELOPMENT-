@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
-
+import "../../App.css";
 export default function ManageUsers() {
 
   const [users, setUsers] = useState([]);
@@ -70,11 +70,11 @@ export default function ManageUsers() {
               {u.academic_supervisor}
             </p>
           )}
-
-          <button onClick={() => deleteUser(u.id)}>
-            Delete User
-          </button>
-
+          <div className="button-group">
+           <button className="action-out" onClick={() => deleteUser(u.id)}>
+              Delete User
+           </button>
+          </div>
         </div>
 
       ))}

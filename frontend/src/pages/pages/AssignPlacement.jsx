@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosInstance, { ENDPOINTS } from "../../api/axiosInstance";
-
+import "../../App.css";
 export default function AssignPlacement() {
   const [students, setStudents] = useState([]);
   const [workplaces, setWorkplaces] = useState([]);

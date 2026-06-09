@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
-
+import "../../App.css";
 export default function CreateLog() {
   const [week, setWeek] = useState("");
   const [activities, setActivities] = useState("");
@@ -36,42 +36,45 @@ export default function CreateLog() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Create Weekly Log</h2>
+    <div className="create-log-container">
+      <h2 className="mylogs-title">Create Weekly Log</h2>
+      <div className="form-group">
+        <input
+          className="form-input"
+          type="number"
+          placeholder="Week Number"
+          onChange={(e) => setWeek(e.target.value)}
+        />
+      </div>
+      
+      <div className="form-group">
+        <input
+          className="form-input"
+          type="text"
+          placeholder="Activities"
+          onChange={(e) => setActivities(e.target.value)}
+        />
+      </div> 
+      
+      <div className="form-group">
+        <input
+         className="form-input"
+         type="text"
+         placeholder="Challenges"
+         onChange={(e) => setChallenges(e.target.value)}
+        />
+      </div>
+      
+      <div className="form-group">
+       <input
+         className="form-input"
+         type="text"
+         placeholder="Skills Learned"
+         onChange={(e) => setSkills(e.target.value)}
+       />
+      </div>
 
-      <input
-        type="number"
-        placeholder="Week Number"
-        onChange={(e) => setWeek(e.target.value)}
-      />
-
-      <br /><br />
-
-      <input
-        type="text"
-        placeholder="Activities"
-        onChange={(e) => setActivities(e.target.value)}
-      />
-
-      <br /><br />
-
-      <input
-        type="text"
-        placeholder="Challenges"
-        onChange={(e) => setChallenges(e.target.value)}
-      />
-
-      <br /><br />
-
-      <input
-        type="text"
-        placeholder="Skills Learned"
-        onChange={(e) => setSkills(e.target.value)}
-      />
-
-      <br /><br />
-
-      <button onClick={handleSubmit}>Save Log</button>
+      <button className="save-btn" onClick={handleSubmit}>Save Log</button>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
-
+import "../../App.css";
 export default function MyLogs() {
   const [logs, setLogs] = useState([]);
 
@@ -45,11 +45,11 @@ export default function MyLogs() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>My Weekly Logs</h2>
+    <div style={{ padding: "20px", margin: "auto" }}>
+      <h2 className="mylogs-title" >My Weekly Logs</h2>
 
       {logs.length === 0 ? (
-        <p>No logs found</p>
+        <p className="empty ">No logs found</p>
       ) : (
         logs.map((log) => (
           <div
@@ -57,14 +57,15 @@ export default function MyLogs() {
             style={{
               border: "1px solid #ccc",
               margin: "10px",
-              padding: "10px"
+              padding: "20px",
+              background: "#fff",
             }}
           >
             <h4>Week {log.week_number}</h4>
 
-            <p><b>Activities:</b> {log.activities}</p>
-            <p><b>Challenges:</b> {log.challenges}</p>
-            <p><b>Skills:</b> {log.skills_learned}</p>
+            <p className="log-detail"><strong>Activities:</strong> {log.activities}</p>
+            <p className="log-detail" ><strong>Challenges:</strong> {log.challenges}</p>
+            <p className="log-detail" ><strong>Skills:</strong> {log.skills_learned}</p>
 
             <p>
               <b>Status:</b>{" "}
@@ -79,17 +80,11 @@ export default function MyLogs() {
               <button onClick={() => submitLog(log.id)}>
                 Submit
               </button>
-
-              <button onClick={() => deleteLog(log.id)}
-                      style={{marginLeft: "10px",color:"red"}}
-              > Delete
-
-              </button>
               </>
             )}
 
             {/*ONLY SHOW delete BUTTON FOR DRAFT */}
-            {log.status === "draft" || log.status === "submitted" (
+            {(log.status === "draft" || log.status === "submitted") && (
               <>
 
               <button onClick={() => deleteLog(log.id)}
