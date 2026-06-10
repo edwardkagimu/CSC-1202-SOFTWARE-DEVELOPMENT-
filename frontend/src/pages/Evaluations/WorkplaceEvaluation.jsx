@@ -46,73 +46,80 @@ export default function WorkplaceEvaluation() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="placement-container">
+       <div className="placement-card">
 
-      <h2>Workplace Evaluation</h2>
+       <h2 className="mylogs-title" >Workplace Evaluation</h2>
 
-      <input
-        type="number"
-        placeholder="Punctuality"
-        onChange={(e) =>
-          setPunctuality(e.target.value)
-        }
-      />
+       <input
+         className="form-input"
+         type="number"
+         placeholder="Punctuality"
+         onChange={(e) =>
+           setPunctuality(e.target.value)
+         }
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <input
-        type="number"
-        placeholder="Teamwork"
-        onChange={(e) =>
-          setTeamwork(e.target.value)
-        }
-      />
+       <input
+         className="form-input"
+         type="number"
+         placeholder="Teamwork"
+         onChange={(e) =>
+           setTeamwork(e.target.value)
+         }
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <input
-        type="number"
-        placeholder="Communication"
-        onChange={(e) =>
-          setCommunication(e.target.value)
-        }
-      />
+       <input
+         className="form-input"
+         type="number"
+         placeholder="Communication"
+         onChange={(e) =>
+           setCommunication(e.target.value)
+         }
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <input
-        type="number"
-        placeholder="Smartness"
-        onChange={(e) =>
-          setSmartness(e.target.value)
-        }
-      />
+       <input
+         className="form-input"
+         type="number"
+         placeholder="Smartness"
+         onChange={(e) =>
+           setSmartness(e.target.value)
+         }
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <input
-        type="number"
-        placeholder="Discipline"
-        onChange={(e) =>
-          setDiscipline(e.target.value)
-        }
-      />
+       <input
+         className="form-input"
+         type="number"
+         placeholder="Discipline"
+         onChange={(e) =>
+           setDiscipline(e.target.value)
+         }
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <textarea
-        placeholder="Supervisor Comments"
-        onChange={(e) =>
-          setComments(e.target.value)
-        }
-      />
+       <textarea
+         className="form-input"
+         placeholder="Supervisor Comments"
+         onChange={(e) =>
+           setComments(e.target.value)
+         }
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <button onClick={submitEvaluation}>
-        Submit Evaluation
-      </button>
-
+       <button className="primary-btn" onClick={submitEvaluation}>
+         Submit Evaluation
+       </button>
+      </div>
     </div>
   );
 }
