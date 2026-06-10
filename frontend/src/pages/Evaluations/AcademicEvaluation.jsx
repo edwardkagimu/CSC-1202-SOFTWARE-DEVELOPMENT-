@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
-
+import "../../App.css";
 export default function AcademicEvaluation() {
 
   const { placementId } = useParams();
@@ -53,61 +53,67 @@ const fetchWorkplaceEvaluation = useCallback(async () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="placement-container">
+       <div className="placement-card">
 
-      <h2>Academic Evaluation</h2>
+       <h2 className="mylogs-title" >Academic Evaluation</h2>
 
-      <hr />
+       <hr />
 
-      <h3>Workplace Supervisor Comment</h3>
+       <h3>Workplace Supervisor Comment</h3>
 
-      <p>{workplaceComment}</p>
+       <p>{workplaceComment}</p>
     
-      <hr />
+       <hr />
 
-      <input
-        type="number"
-        placeholder="Technical Skills"
-        onChange={(e) => setTechnicalSkills(e.target.value)}
-      />
+       <input
+         className="form-input"
+         type="number"
+         placeholder="Technical Skills"
+         onChange={(e) => setTechnicalSkills(e.target.value)}
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <input
-        type="number"
-        placeholder="Report Quality"
-        onChange={(e) => setReportQuality(e.target.value)}
-      />
+       <input
+         className="form-input"
+         type="number"
+         placeholder="Report Quality"
+         onChange={(e) => setReportQuality(e.target.value)}
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <input
-        type="number"
-        placeholder="Problem Solving"
-        onChange={(e) => setProblemSolving(e.target.value)}
-      />
+       <input
+         className="form-input"
+         type="number"
+         placeholder="Problem Solving"
+         onChange={(e) => setProblemSolving(e.target.value)}
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <input
-        type="number"
-        placeholder="Presentation"
-        onChange={(e) => setPresentation(e.target.value)}
-      />
+       <input
+         className="form-input"
+         type="number"
+         placeholder="Presentation"
+         onChange={(e) => setPresentation(e.target.value)}
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <textarea
-        placeholder="Academic Supervisor Comments"
-        onChange={(e) => setComments(e.target.value)}
-      />
+       <textarea
+         className="form-input"
+         placeholder="Academic Supervisor Comments"
+         onChange={(e) => setComments(e.target.value)}
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <button onClick={submitEvaluation}>
-        Submit Evaluation
-      </button>
-
+       <button className="primary-btn" onClick={submitEvaluation}>
+         Submit Evaluation
+       </button>
+      </div>
     </div>
   );
 }

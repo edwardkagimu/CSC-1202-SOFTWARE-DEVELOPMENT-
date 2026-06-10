@@ -77,94 +77,100 @@ export default function AssignPlacement() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Assign Internship Placement</h2>
+    <div className="placement-container">
+      <div className="placement-card">
+       <h2 className="mylogs-title">Assign Internship Placement</h2>
 
-      {/* STUDENT */}
-      <label><b>Student</b></label>
-      <br />
-      <select value={student} onChange={(e) => setStudent(e.target.value)}>
-        <option value="">Select Student</option>
-        {students.map((s) => (
-          <option key={s.id} value={s.id}>
-            {s.reg_no} - {s.username}
-          </option>
-        ))}
-      </select>
+       {/* STUDENT */}
+       <label><b>Student</b></label>
+       <br />
+       <select className="form-input" value={student} onChange={(e) => setStudent(e.target.value)}>
+         <option value="">Select Student</option>
+         {students.map((s) => (
+           <option key={s.id} value={s.id}>
+             {s.reg_no} - {s.username}
+           </option>
+         ))}
+       </select>
 
-      <br /><br />
+       <br /><br />
 
-      {/* WORKPLACE SUPERVISOR */}
-      <label><b>Workplace Supervisor</b></label>
-      <br />
-      <select value={workplace} onChange={(e) => setWorkplace(e.target.value)}>
-        <option value="">Select Workplace Supervisor</option>
-        {workplaces.map((w) => (
-          <option key={w.id} value={w.id}>
-            {w.username}
-          </option>
-        ))}
-      </select>
+       {/* WORKPLACE SUPERVISOR */}
+       <label><b>Workplace Supervisor</b></label>
+       <br />
+       <select className="form-input" value={workplace} onChange={(e) => setWorkplace(e.target.value)}>
+         <option value="">Select Workplace Supervisor</option>
+         {workplaces.map((w) => (
+           <option key={w.id} value={w.id}>
+             {w.username}
+           </option>
+         ))}
+       </select>
 
-      <br /><br />
+       <br /><br />
 
-      {/* ACADEMIC SUPERVISOR */}
-      <label><b>Academic Supervisor</b></label>
-      <br />
-      <select value={academic} onChange={(e) => setAcademic(e.target.value)}>
-        <option value="">Select Academic Supervisor</option>
-        {academics.map((a) => (
-          <option key={a.id} value={a.id}>
-            {a.username}
-          </option>
-        ))}
-      </select>
+       {/* ACADEMIC SUPERVISOR */}
+       <label><b>Academic Supervisor</b></label>
+       <br />
+       <select className="form-input" value={academic} onChange={(e) => setAcademic(e.target.value)}>
+         <option value="">Select Academic Supervisor</option>
+         {academics.map((a) => (
+           <option key={a.id} value={a.id}>
+             {a.username}
+           </option>
+         ))}
+       </select>
 
-      <br /><br />
+       <br /><br />
 
-      {/* COMPANY DETAILS */}
-      <label><b>Company Name</b></label>
-      <br />
-      <input
-        type="text"
-        value={companyName}
-        onChange={(e) => setCompanyName(e.target.value)}
-      />
+       {/* COMPANY DETAILS */}
+       <label><b>Company Name</b></label>
+       <br />
+       <input
+         className="forminput"
+         type="text"
+         value={companyName}
+         onChange={(e) => setCompanyName(e.target.value)}
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <label><b>Company Address</b></label>
-      <br />
-      <input
-        type="text"
-        value={companyAddress}
-        onChange={(e) => setCompanyAddress(e.target.value)}
-      />
+       <label><b>Company Address</b></label>
+       <br />
+       <input
+         className="form-input"
+         type="text"
+         value={companyAddress}
+         onChange={(e) => setCompanyAddress(e.target.value)}
+       />
 
-      <br /><br />
+       <br /><br />
 
-      {/* DATES */}
-      <label><b>Start Date</b></label>
-      <br />
-      <input
-        type="date"
-        value={startDate}
-        onChange={(e) => setStartDate(e.target.value)}
-      />
+       {/* DATES */}
+       <label><b>Start Date</b></label>
+       <br />
+       <input
+         className="form-input"
+         type="date"
+         value={startDate}
+         onChange={(e) => setStartDate(e.target.value)}
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <label><b>End Date</b></label>
-      <br />
-      <input
-        type="date"
-        value={endDate}
-        onChange={(e) => setEndDate(e.target.value)}
-      />
+       <label><b>End Date</b></label>
+       <br />
+       <input
+         className="form-input"
+         type="date"
+         value={endDate}
+         onChange={(e) => setEndDate(e.target.value)}
+       />
 
-      <br /><br />
+       <br /><br />
 
-      <button onClick={handleAssign}>Assign Placement</button>
+       <button className="primary-btn" onClick={handleAssign}>Assign Placement</button>
+      </div>
     </div>
   );
 }
